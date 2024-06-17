@@ -1,0 +1,17 @@
+{
+  "name": "asd_project",
+  "version": "1.0.0",
+  "description": "car dealership",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "node": "^22.3.0",
+    "virtue": "^1.1.0",
+    "vite": "^5.3.1"
+  }
+}

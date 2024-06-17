@@ -11,11 +11,10 @@ const BasicExample = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
             <Nav>
-              <Nav.Link href="#home" className="fs-3">Home</Nav.Link>
-              <Nav.Link href="#link" className="fs-3">Link</Nav.Link>
-              <Nav.Link href="#link" className="fs-3">Link</Nav.Link>
-              <Nav.Link href="#link" className="fs-3">Link</Nav.Link>
-              <Nav.Link href="#link" className="fs-3">Link</Nav.Link>
+              <Nav.Link href="/" className="fs-3">Home</Nav.Link>
+              <Nav.Link href="/Buy" className="fs-3">Buy</Nav.Link>
+              <Nav.Link href="/Sell" className="fs-3">Sell</Nav.Link>
+              <Nav.Link href="/Services" className="fs-3">Services</Nav.Link>
             </Nav>
             <Nav>
               <Nav.Link href="#signin" className="btn btn-light ms-5 fs-3">Sign In</Nav.Link>

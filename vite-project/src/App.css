@@ -19,10 +19,16 @@
 
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
 }
+.body{
+  background-color: #2d44598b;
+  min-height: calc(100vh - 10rem);
+  width: 100%;
+
+}
 
 .main-body {
-  background-color: #2d44598b;
-  padding: 5%;
+  /* background-color: #2d44598b; */
+  padding: 4%;
   min-height: calc(100vh - 10rem);
   width: 100%;
 }

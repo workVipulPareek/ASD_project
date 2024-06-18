@@ -3,7 +3,7 @@ import { FaFacebookF, FaTwitter, FaGoogle, FaInstagram } from 'react-icons/fa'; 
 
 const Footer = () => {
   return (
-    <footer className="d-flex justify-content-center align-items-center fixed-bottom bg-dark text-white p-3">
+    <footer className="d-flex justify-content-center align-items-center  bg-dark text-white p-3">
       {/* Grid container */}
       <div className="container p-4 pb-0">
         {/* Section: Social media */}

@@ -10,7 +10,7 @@ const BasicExample = () => {
     <ChakraProvider>
       <Navbar className='header' bg="dark" sticky="top" expand="lg" variant="dark">
         <Container fluid>
-          <a className='navbar-brand' href='/Sell'>
+          <a className='navbar-brand' href='/'>
             <div className='logo-image'>
               <img src={IMG} className="img-fluid" alt="Logo" />
             </div>

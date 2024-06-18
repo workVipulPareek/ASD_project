@@ -2,12 +2,19 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import IMG from '../images/larussoAuto.png';
 
 const BasicExample = () => {
   return (
       <Navbar className='header' bg = "dark" sticky="top" expand="lg"  variant="dark">
         <Container fluid >
-          <Navbar.Brand href="#home" className="navbar-brand-company-name">Larusso Motors</Navbar.Brand>
+          <a className='navbar-brand' href='/Sell'>
+            <div className='logo-image'>
+              <img src= {IMG} class = "img-fluid">
+              </img>
+            </div>
+          </a>
+          {/* <Navbar.Brand href="#home" className="navbar-brand-company-name">LaRusso Auto Group</Navbar.Brand> */}
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
             <Nav>

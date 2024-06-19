@@ -36,6 +36,7 @@ const Sell = () => {
   ));
 
   return (
+    <div className='main-body'>
     <div className="container mt-5">
       <h2 className="text-center text-white bg-dark p-3">Sell Your Car</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="bg-light p-4 rounded">
@@ -82,6 +83,7 @@ const Sell = () => {
 
         <button type="submit" className="btn btn-dark">Submit</button>
       </form>
+    </div>
     </div>
   );
 };

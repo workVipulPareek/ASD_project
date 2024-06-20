@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ChakraProvider, Grid, GridItem, Image, Heading, Box, Text, extendTheme } from '@chakra-ui/react';
+import { ChakraProvider, Grid, GridItem, Image, Heading, Box, Text, extendTheme, Link } from '@chakra-ui/react';
 import axios from 'axios';
 import theme from './themes';
 
@@ -14,7 +14,7 @@ const Home = () => {
                 const response = await axios.get('https://api.unsplash.com/photos/random', {
                     params: { query: 'car', count: 4 },
                     headers: {
-                        Authorization:'Client-ID dgqVapTQ7ZDRV-6dWxxvYRAbN68hFPfZO9y7iT8GnRk'
+                        Authorization: 'Client-ID dgqVapTQ7ZDRV-6dWxxvYRAbN68hFPfZO9y7iT8GnRk'
                     }
                 });
                 setCarImages(response.data);
@@ -27,7 +27,7 @@ const Home = () => {
 
     return (
         <ChakraProvider theme={customTheme}>
-            <Box className='main-body' p={8} bg='gray.50'>
+            <Box className='main-body' p={8} bg='gray.65'>
                 <Box textAlign="center" mb={8}>
                     <Heading as='h2' size='3xl' mb={4} variant="main" color="teal.500">Welcome to LaRusso Motors</Heading>
                     <Text fontSize='xl' variant="main" color="gray.700">
@@ -40,7 +40,7 @@ const Home = () => {
                 >
                     {carImages.map((image, index) => (
                         <GridItem key={index} h="40%" w="100%" >
-                            <Image src={`${image.urls.raw}&w=300&h=500&fit=crop`} alt={image.alt_description}objectFit='cover' borderRadius='md' boxShadow='md' />
+                            <Image src={`${image.urls.raw}&w=300&h=500&fit=crop`} alt={image.alt_description} objectFit='cover' borderRadius='md' boxShadow='md' />
                         </GridItem>
                     ))}
                 </Grid>
@@ -50,11 +50,18 @@ const Home = () => {
                         <Text fontSize='xl' color='white'>----Get 10% off your first service and No cost EMI----</Text>
                     </Box>
                 </Box>
-                <Box mt={8} textAlign="center" p={4} bg='gray.100' borderRadius='md' boxShadow='md'>
-                    <Heading as='h4' size='md' mb={2} color='gray.800'>Additional Information</Heading>
-                    <Text fontSize='lg' color='gray.600'>Here you can add more details about your services, offers, or any other relevant information.</Text>
-                </Box>
             </Box>
+            <Box mt={8} textAlign="center" p={4} borderRadius='md' boxShadow='md' bg='teal.100' >
+                <Heading as='h4' size='md' mb={2} >Additional Information</Heading>
+                <Heading as='h5' fontSize='lg' color='gray.600'>
+                    <Link href="/Services" mr={2}>Book A Service</Link>
+                    <span>||</span>
+                    <Link href="/Sell"  ml={2} mr={2}>Get most of your Old Car</Link>
+                    <span>||</span>
+                    <Link href="/Buy"  ml={2}>Dynamic Prices</Link>
+                </Heading>
+            </Box>
+
         </ChakraProvider>
     );
 }

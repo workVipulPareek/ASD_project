@@ -6,10 +6,6 @@ import '@fontsource/roboto';
 import '@fontsource/open-sans';
 
 const theme = extendTheme({
-//   fonts: {
-//     heading: 'Satisfy, sans-serif', // Default heading font
-//     body: 'Roboto, sans-serif', // Default body font
-//   },
   components: {
     Heading: {
       variants: {

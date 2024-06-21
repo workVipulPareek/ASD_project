@@ -2,7 +2,8 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import { ChakraProvider, Button } from '@chakra-ui/react';
+import { ChakraProvider, Button,Link } from '@chakra-ui/react';
+import { Link as RouterLink } from 'react-router-dom';
 import IMG from '../images/larussoAuto.png';
 
 const BasicExample = () => {
@@ -23,7 +24,7 @@ const BasicExample = () => {
               <Nav.Link href="/Sell" className="fs-3">Sell</Nav.Link>
               <Nav.Link href="/Services" className="fs-3">Services</Nav.Link>
             </Nav>
-            <Button colorScheme="whiteAlpha" variant= 'solid' size='lg' m={5} p={5}>Sign In</Button>
+            <Button as={RouterLink} to="/Login" colorScheme="teal" variant='solid' size='lg' m={5} p={5}>Sign In</Button>
           </Navbar.Collapse>
         </Container>
       </Navbar>

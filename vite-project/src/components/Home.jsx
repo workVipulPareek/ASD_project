@@ -27,7 +27,7 @@ const Home = () => {
 
     return (
         <ChakraProvider theme={customTheme}>
-            <Box className='main-body' p={8} bg='gray.65'>
+            <Box className='main-body' p={8} >
                 <Box textAlign="center" mb={8}>
                     <Heading as='h2' size='3xl' mb={4} variant="main" color="teal.500">Welcome to LaRusso Motors</Heading>
                     <Text fontSize='xl' variant="main" color="gray.700">
@@ -51,7 +51,7 @@ const Home = () => {
                     </Box>
                 </Box>
             </Box>
-            <Box mt={8} textAlign="center" p={4} borderRadius='md' boxShadow='md' bg='teal.100' >
+            <Box mt={8} textAlign="center" p={4}  boxShadow='md' bg='teal.100' >
                 <Heading as='h4' size='md' mb={2} >Additional Information</Heading>
                 <Heading as='h5' fontSize='lg' color='gray.600'>
                     <Link href="/Services" mr={2}>Book A Service</Link>

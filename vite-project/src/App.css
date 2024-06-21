@@ -7,14 +7,13 @@
 }
 
 .body{
-  background-color: #2d44598b;
+  background-color: #cecfd0b1;
   min-height: calc(100vh - 10rem);
   width: 100%;
 
 }
 
 .main-body {
-  /* background-color: #2d44598b; */
   padding: 4%;
   min-height: calc(100vh - 10rem);
   width: 100%;

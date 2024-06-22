@@ -11,12 +11,12 @@ const BasicExample = () => {
     <ChakraProvider>
       <Navbar className='header' bg="dark" sticky="top" expand="lg" variant="dark">
         <Container fluid>
-          <a className='navbar-brand' href='/'>
+          <a  href='/'>
             <div className='logo-image'>
-              <img src={IMG} className="img-fluid" alt="Logo" />
+              <img width="250px"  src={IMG} alt="Logo" />
             </div>
           </a>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Toggle  aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
             <Nav>
               <Nav.Link href="/" className="fs-3">Home</Nav.Link>

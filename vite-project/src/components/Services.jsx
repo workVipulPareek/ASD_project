@@ -1,85 +1,118 @@
-
-import React from 'react';
-import { useForm } from 'react-hook-form';
-import { useDropzone } from 'react-dropzone';
+import React, { useState } from 'react';
+import { ChakraProvider, Flex, Box, Heading, FormControl, FormLabel, Select, Radio, RadioGroup, Stack, Input, Button, Textarea, Text } from '@chakra-ui/react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import auto_mechanic from '../images/auto_Mechanic.jpg';
 
 const Service = () => {
-  const { register, handleSubmit, reset, formState: { errors } } = useForm();
-  const onSubmit = (data) => {
-    console.log(data);
-    reset();
+  const [value, setValue] = useState('');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [serviceType, setServiceType] =useState('');
+  const [vehicleNumber, setVehicleNumber] = useState('');
+  const [vehicleModel, setVehicleModel] = useState('');
+  const [vehicleCompany, setVehicleCompany] = useState('');
+  const [date, setDate] = useState('');
+  const [description, setDescription] = useState('');
+  const [isValid, setIsValid] = useState(true); // Initially true, assuming form starts valid
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const pattern = /^[A-Z]{5}\d{2}[A-Z]{2}\d{1}[A-Z]{1}\d{6}$/;
+    if (pattern.test(vehicleNumber)) {
+      setIsValid(true);
+      alert(`Form Submitted Successfully
+        Name: ${name}
+        Email: ${email}
+        Phone: ${phone}
+        Service Type: ${serviceType}
+        Vehicle Company: ${vehicleCompany}
+        Vehicle Model: ${vehicleModel}
+        Vehicle Number: ${vehicleNumber}
+        Service Date: ${date}
+        Description: ${description}`);
+    } else {
+      setIsValid(false);
+    }
   };
 
-  const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
-    accept: 'image/*',
-    maxFiles: 1
-  });
-
-  const files = acceptedFiles.map(file => (
-    <li key={file.path} className="list-group-item">
-      {file.path} - {file.size} bytes
-    </li>
-  ));
-
   return (
-    <div className='main-body'>
-    <div className="container mt-5">
-      <h2 className="text-center text-white bg-dark p-3">Services Form</h2>
-      <form onSubmit={handleSubmit(onSubmit)} className="bg-light p-4 rounded">
-        <div className="mb-3">
-          <label htmlFor="Sr_name" className="form-label">Service Name:</label>
-          <input id="Sr_name" className="form-control" {...register('Sr_name', { required: true })} />
-          {errors.Sr_name && <p className="text-danger">This field is required</p>}
-        </div>
-
-        <div className="mb-3">
-          <label htmlFor="model_name" className="form-label">Model Name:</label>
-          <input id="model_name" className="form-control" {...register('model_name', { required: true })} />
-          {errors.model_name && <p className="text-danger">This field is required</p>}
-        </div>
-
-        {/* <div className="mb-3">
-          <label htmlFor="year" className="form-label">Year:</label>
-          <input id="year" type="number" className="form-control" {...register('year', { required: true, min: 1886 })} />
-          {errors.year && <p className="text-danger">This field is required and must be a valid year</p>}
-        </div> */}
-
-        <div className="mb-3">
-          <label htmlFor="Sr_date" className="form-label">Service Date:</label>
-          <input id="Sr_date" type="date" className="form-control" {...register('Sr_date', { required: true })} />
-          {errors.Sr_time && <p className="text-danger">This field is required</p>}
-        </div>
-
-        <div className="mb-3">
-          <label htmlFor="Sr_time" className="form-label">Service Time:</label>
-          <input id="Sr_time" type="time" className="form-control" {...register('Sr_time', { required: true })} />
-          {errors.Sr_time && <p className="text-danger">This field is required</p>}
-        </div>
-
-        <div className="mb-3">
-          <label htmlFor="Iss_description" className="form-label">Issue Description:</label>
-          <textarea id="Iss_description" className="form-control" {...register('Iss_description', { required: true })} />
-          {errors.Iss_description && <p className="text-danger">This field is required</p>}
-        </div>
-
-        <div className="mb-3">
-          <label className="form-label">Upload Photo:</label>
-          <div {...getRootProps({ className: 'dropzone border border-dark p-3 rounded' })}>
-            <input {...getInputProps()} />
-            <p className="text-center">Drag 'n' drop a photo here, or click to select one</p>
-
+    <ChakraProvider>
+      <div className="main-body">
+        <div className="services-Header">
+          <div className='services-Header-Img'>
+            <img src={auto_mechanic} alt="auto_mechanic" />
           </div>
-          <aside className="mt-3">
-            <h4>Files</h4>
-            <ul className="list-group">{files}</ul>
-          </aside>
         </div>
-
-        <button type="submit" className="btn btn-dark">Submit</button>
-      </form>
-    </div>
-    </div>
+        <Flex justifyContent="center" mt={8}>
+          <Box p={2} width="50%">
+            <Box textAlign="center">
+              <Heading as="h2" size="xl">
+                Book A Service
+              </Heading>
+            </Box>
+            <Box bg="#CBD5E0" width="100%" p={8} borderWidth={1} borderRadius={8} boxShadow="lg">
+              <form onSubmit={handleSubmit}>
+                <RadioGroup onChange={setValue} value={value}>
+                  <Stack direction="row" spacing={4}>
+                    <Radio value="Mr" borderColor='black' colorScheme='teal'>
+                      Mr
+                    </Radio>
+                    <Radio value="Mrs" borderColor='black' colorScheme='teal'>
+                      Mrs
+                    </Radio>
+                  </Stack>
+                </RadioGroup>
+                <FormControl isRequired>
+                  <FormLabel mt={4} ml={1}>Name</FormLabel>
+                  <Input type="text" placeholder="Enter your Name" value={name} onChange={(e) => setName(e.target.value)} />
+                </FormControl>
+                <FormControl isRequired>
+                  <FormLabel mt={4} ml={1}>Email</FormLabel>
+                  <Input type="email" placeholder="Enter your Email Id" value={email} onChange={(e) => setEmail(e.target.value)} />
+                </FormControl>
+                <FormControl isRequired>
+                  <FormLabel mt={4} ml={1}>Phone Number</FormLabel>
+                  <Input type="tel" placeholder="Enter your Phone Number" value={phone} onChange={(e) => setPhone(e.target.value)} />
+                </FormControl>
+                <FormControl isRequired>
+                  <FormLabel mt={4} ml={1}>Service Type</FormLabel>
+                  <Select placeholder='Select Service Type' value={serviceType} onChange={(e) => setServiceType(e.target.value)}>
+                    <option value="service1">Paid Service</option>
+                    <option value="service2">Free Service</option>
+                    <option value="service3">Running Repair</option>
+                  </Select>
+                </FormControl>
+                <FormControl isRequired>
+                  <FormLabel mt={4} ml={1}>Vehicle Company</FormLabel>
+                  <Input type="text" placeholder="Enter your Vehicle Company" value={vehicleCompany} onChange={(e) => setVehicleCompany(e.target.value)} />
+                </FormControl>
+                <FormControl isRequired>
+                  <FormLabel mt={4} ml={1}>Vehicle Model</FormLabel>
+                  <Input type="text" placeholder="Enter your Vehicle Model" value={vehicleModel} onChange={(e) => setVehicleModel(e.target.value)} />
+                </FormControl>
+                <FormControl isRequired>
+                  <FormLabel mt={4} ml={1}>Vehicle Number (e.g., MALAA82HR4M123456)</FormLabel>
+                  <Input type="text" placeholder="Enter your Vehicle Number" value={vehicleNumber} onChange={(e) => setVehicleNumber(e.target.value)} pattern="^[A-Z]{5}\d{2}[A-Z]{2}\d{1}[A-Z]{1}\d{6}$" />
+                  {!isValid && <Text color='red'>Enter Valid Vehicle Number (e.g., MALAA82HR4M123456).</Text>}
+                </FormControl>
+                <FormControl isRequired>
+                  <FormLabel mt={4} ml={1}>Service Date</FormLabel>
+                  <Input type="date" placeholder="Enter your Service Date" value={date} onChange={(e) => setDate(e.target.value)} />
+                </FormControl>
+                <FormControl>
+                  <FormLabel mt={4} ml={1}>Description</FormLabel>
+                  <Textarea placeholder="Enter your Description" value={description} onChange={(e) => setDescription(e.target.value)} />
+                </FormControl>
+                <Button mt={4} colorScheme="teal" type="submit">
+                  Submit
+                </Button>
+              </form>
+            </Box>
+          </Box>
+        </Flex>
+      </div>
+    </ChakraProvider>
   );
 };
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { VStack, Grid, Box, Heading, Text, Image, extendTheme, ChakraProvider } from "@chakra-ui/react";
+import { VStack, Grid, Box,Button, Heading, Text, Image, extendTheme, ChakraProvider } from "@chakra-ui/react";
 import alto from "../images/macleren.jpeg";
 import ferrari from "../images/ferrari.jpg";
 import porche from "../images/porche.jpg";
@@ -31,7 +31,7 @@ const Buy = () => {
           <Grid templateColumns="repeat(3, 1fr)" gap={6}>
             {cars.map(car => (
               <Box bg="#CBD5E0" width="100%" p={4} borderWidth={1} borderRadius={8} boxShadow="lg" overflow="hidden" h="350px">
-                <Box h="75%" overflow="hidden" >
+                <Box h="70%" overflow="hidden" >
                   <Image
                     src={car.image}
                     alt={car.name}
@@ -40,11 +40,16 @@ const Buy = () => {
                     h="100%"
                   />
                 </Box>
-                <Box p={4} h="25%">
+                <Box p={4} h="30%"textAlign={"left"}>
                   <Heading variant={"navigation"}  size="xl">{car.name}</Heading>
                   <Text variant={"marquee"}  mt={2}>{car.description}</Text>
+                  <center>
+                  <Button width={"md"} bg="teal" color="white" >Buy</Button>
+                </center>
                 </Box>
+                
               </Box>
+
             ))}
           </Grid>
         </VStack>

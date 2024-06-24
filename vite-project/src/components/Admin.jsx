@@ -5,13 +5,45 @@ const Admin = () => {
   return (
     <ChakraProvider>
       <Box p={5}>
-        <Heading as="h1" size="xl" mb={5}>Admin Panel</Heading>
-        <Tabs variant="enclosed" size="lg">
+      <Heading as="h1" size="xl" mb={5} textAlign="center" fontWeight="extrabold">Admin Panel</Heading>
+      <Tabs variant="enclosed" size="lg">
           <TabList>
-            <Tab>User Info</Tab>
-            <Tab>Services Request</Tab>
-            <Tab>Sell Info</Tab>
-            <Tab>Buy Info</Tab>
+            <Tab 
+              _selected={{ bg: 'black', color: 'white', fontWeight: 'bold' }} 
+              bg="lightblue" 
+              color="white" 
+              fontWeight="bold" 
+              _hover={{ bg: 'blue.300' }}
+            >
+              User Info
+            </Tab>
+            <Tab 
+              _selected={{ bg: 'black', color: 'white', fontWeight: 'bold' }} 
+              bg="lightblue" 
+              color="white" 
+              fontWeight="bold" 
+              _hover={{ bg: 'blue.300' }}
+            >
+              Services Request
+            </Tab>
+            <Tab 
+              _selected={{ bg: 'black', color: 'white', fontWeight: 'bold' }} 
+              bg="lightblue" 
+              color="white" 
+              fontWeight="bold" 
+              _hover={{ bg: 'blue.300' }}
+            >
+              Sell Info
+            </Tab>
+            <Tab 
+              _selected={{ bg: 'black', color: 'white', fontWeight: 'bold' }} 
+              bg="lightblue" 
+              color="white" 
+              fontWeight="bold" 
+              _hover={{ bg: 'blue.300' }}
+            >
+              Buy Info
+            </Tab>
           </TabList>
           <TabPanels>
             <TabPanel>

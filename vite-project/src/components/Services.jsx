@@ -1,20 +1,24 @@
 import React, { useState } from 'react';
-import { ChakraProvider, Flex, Box, Heading, FormControl, FormLabel, Select, Radio, RadioGroup, Stack, Input, Button, Textarea, Text } from '@chakra-ui/react';
+import { extendTheme, ChakraProvider, Flex, Box, Heading, FormControl, FormLabel, Select, Radio, RadioGroup, Stack, Input, Button, Textarea, Text } from '@chakra-ui/react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import auto_mechanic from '../images/auto_Mechanic.jpg';
+import theme from './themes';
+
+const customTheme = extendTheme(theme);
 
 const Service = () => {
   const [value, setValue] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [serviceType, setServiceType] =useState('');
+  const [serviceType, setServiceType] = useState('');
   const [vehicleNumber, setVehicleNumber] = useState('');
   const [vehicleModel, setVehicleModel] = useState('');
   const [vehicleCompany, setVehicleCompany] = useState('');
   const [date, setDate] = useState('');
   const [description, setDescription] = useState('');
   const [isValid, setIsValid] = useState(true); // Initially true, assuming form starts valid
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -37,20 +41,20 @@ const Service = () => {
   };
 
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={customTheme}>
       <div className="main-body">
-        <div className="services-Header">
-          <div className='services-Header-Img'>
-            <img src={auto_mechanic} alt="auto_mechanic" />
-          </div>
-        </div>
         <Flex justifyContent="center" mt={8}>
           <Box p={2} width="50%">
             <Box textAlign="center">
-              <Heading as="h2" size="xl">
+              <Heading variant={"main"} as={"h2"} size={"3xl"} color={"teal"}>
                 Book A Service
               </Heading>
             </Box>
+            <div className="services-Header">
+              <div  className='services-Header-Img'>
+                <img src={auto_mechanic} alt="auto_mechanic" />
+              </div>
+            </div>
             <Box bg="#CBD5E0" width="100%" p={8} borderWidth={1} borderRadius={8} boxShadow="lg">
               <form onSubmit={handleSubmit}>
                 <RadioGroup onChange={setValue} value={value}>
@@ -104,9 +108,11 @@ const Service = () => {
                   <FormLabel mt={4} ml={1}>Description</FormLabel>
                   <Textarea placeholder="Enter your Description" value={description} onChange={(e) => setDescription(e.target.value)} />
                 </FormControl>
-                <Button mt={4} colorScheme="teal" type="submit">
-                  Submit
-                </Button>
+                <center>
+                  <Button mt={4} colorScheme="teal" type="submit" >
+                    Submit
+                  </Button>
+                </center>
               </form>
             </Box>
           </Box>

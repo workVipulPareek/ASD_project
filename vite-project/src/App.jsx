@@ -8,6 +8,7 @@ import Services from './components/Services';
 import Home from './components/Home';
 import Footer from './components/Footer';
 import LoginForm from './components/Login';
+import Admin from './components/Admin';
 import './App.css';
 
 const App = () => {
@@ -22,6 +23,7 @@ const App = () => {
             <Route path='/sell' element={<Sell />} />
             <Route path='/services' element={<Services />} />
             <Route path='/login' element={<LoginForm />} />
+            <Route path = '/admin' element={<Admin/>} />
           </Routes>
 
           <Footer />

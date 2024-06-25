@@ -4,6 +4,7 @@ import { ChakraProvider, Box, Tab, TabList, TabPanel, TabPanels, Tabs, Heading, 
 const Admin = () => {
   return (
     <ChakraProvider>
+      <div className='main-body'>
       <Box p={5}>
       <Heading as="h1" size="xl" mb={5} textAlign="center" fontWeight="extrabold">Admin Panel</Heading>
       <Tabs variant="enclosed" size="lg">
@@ -61,6 +62,7 @@ const Admin = () => {
           </TabPanels>
         </Tabs>
       </Box>
+      </div>
     </ChakraProvider>
   );
 };

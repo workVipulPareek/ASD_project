@@ -44,7 +44,7 @@ const Sell = () => {
       <div className='main-body'>
 
         <Box textAlign="center">
-          <Heading size="xl" as='h2' color="gray.600">
+          <Heading variant={"main"} as={"h2"} size={"3xl"} color={"teal"}>
             Sell Your Car On your Terms
           </Heading>
         </Box>

@@ -81,17 +81,19 @@ const UserInfo = () => {
   return (
     <Box>
       <Heading as="h2" size="lg" mb={4}>User Info</Heading>
-      <List spacing={5} style={{ listStyleType: 'disc', paddingLeft: '20px' }}>
+      <List spacing={5}>
         {users.map((user) => (
           <ListItem key={user.id}>
-            <Flex justifyContent="space-between" alignItems="center">
-              <Box>
-                <Text fontSize="lg"><strong>Name:</strong> {user.name}</Text>
-                <Text fontSize="lg"><strong>Email:</strong> {user.email}</Text>
-                <Text fontSize="lg"><strong>Role:</strong> {user.role}</Text>
-              </Box>
-              <Button colorScheme="red" onClick={() => deleteUser(user.id)}>Delete</Button>
-            </Flex>
+            <Box p={4} boxShadow="lg" borderRadius="md" bg="white">
+              <Flex justifyContent="space-between" alignItems="center">
+                <Box>
+                  <Text fontSize="lg"><strong>Name:</strong> {user.name}</Text>
+                  <Text fontSize="lg"><strong>Email:</strong> {user.email}</Text>
+                  <Text fontSize="lg"><strong>Role:</strong> {user.role}</Text>
+                </Box>
+                <Button colorScheme="red" onClick={() => deleteUser(user.id)}>Delete</Button>
+              </Flex>
+            </Box>
           </ListItem>
         ))}
       </List>
@@ -118,20 +120,22 @@ const ServiceRequest = () => {
   return (
     <Box>
       <Heading as="h2" size="lg" mb={4}>Services Request</Heading>
-      <List spacing={5} style={{ listStyleType: 'disc', paddingLeft: '20px' }}>
+      <List spacing={5}>
         {requests.map((request) => (
           <ListItem key={request.id}>
-            <Flex justifyContent="space-between" alignItems="center">
-              <Box>
-                <Text fontSize="lg"><strong>Name:</strong> {request.name}</Text>
-                <Text fontSize="lg"><strong>Service:</strong> {request.service}</Text>
-                <Text fontSize="lg"><strong>Status:</strong> {request.status}</Text>
-              </Box>
-              <Box>
-                <Button colorScheme="blue" mr={2} onClick={() => forwardRequest(request.id)}>Forward</Button>
-                <Button colorScheme="red" onClick={() => deleteRequest(request.id)}>Delete</Button>
-              </Box>
-            </Flex>
+            <Box p={4} boxShadow="lg" borderRadius="md" bg="white">
+              <Flex justifyContent="space-between" alignItems="center">
+                <Box>
+                  <Text fontSize="lg"><strong>Name:</strong> {request.name}</Text>
+                  <Text fontSize="lg"><strong>Service:</strong> {request.service}</Text>
+                  <Text fontSize="lg"><strong>Status:</strong> {request.status}</Text>
+                </Box>
+                <Box>
+                  <Button colorScheme="blue" mr={2} onClick={() => forwardRequest(request.id)}>Forward</Button>
+                  <Button colorScheme="red" onClick={() => deleteRequest(request.id)}>Delete</Button>
+                </Box>
+              </Flex>
+            </Box>
           </ListItem>
         ))}
       </List>
@@ -151,10 +155,10 @@ const SellInfo = () => {
   return (
     <Box>
       <Heading as="h2" size="lg" mb={4}>Sell Info</Heading>
-      <List spacing={5} style={{ listStyleType: 'disc', paddingLeft: '20px' }}>
+      <List spacing={5}>
         {sales.map((sale) => (
           <ListItem key={sale.id}>
-            <Box>
+            <Box p={4} boxShadow="lg" borderRadius="md" bg="white">
               <Text fontSize="lg"><strong>Name:</strong> {sale.name}</Text>
               <Text fontSize="lg"><strong>Item:</strong> {sale.item}</Text>
               <Text fontSize="lg"><strong>Price:</strong> {sale.price}</Text>
@@ -177,12 +181,14 @@ const BuyInfo = () => {
   return (
     <Box>
       <Heading as="h2" size="lg" mb={4}>Buy Info</Heading>
-      <List spacing={5} style={{ listStyleType: 'disc', paddingLeft: '20px' }}>
+      <List spacing={5}>
         {buyers.map((buyer) => (
           <ListItem key={buyer.id}>
-            <Text fontSize="lg"><strong>Name:</strong> {buyer.name}</Text>
-            <Text fontSize="lg"><strong>Car:</strong> {buyer.car}</Text>
-            <Text fontSize="lg"><strong>Status:</strong> {buyer.status}</Text>
+            <Box p={4} boxShadow="lg" borderRadius="md" bg="white">
+              <Text fontSize="lg"><strong>Name:</strong> {buyer.name}</Text>
+              <Text fontSize="lg"><strong>Car:</strong> {buyer.car}</Text>
+              <Text fontSize="lg"><strong>Status:</strong> {buyer.status}</Text>
+            </Box>
           </ListItem>
         ))}
       </List>

@@ -10,15 +10,15 @@ import {
   extendTheme,
   ChakraProvider,
 } from "@chakra-ui/react";
-import rollsroyce from "./images/rollsroyce.webp";
-import bentely from "./images/bentley.webp";
-import mercedes from "./images/mercedes.webp";
-import bmw from "./images/bmw7.jpeg";
-import audi from "./images/audia8.avif";
-import defender from "./images/defender.webp";
-import lexus from "./images/lexus.webp";
-import volvo from "./images/volvo.webp";
-import maserati from "./images/maserati.jpeg";
+import rollsroyce from "../images/rollsroyce.webp";
+import bentely from "../images/bentley.webp";
+import mercedes from "../images/mercedes.webp";
+import bmw from "../images/bmw7.jpeg";
+import audi from "../images/audia8.avif";
+import defender from "../images/defender.webp";
+import lexus from "../images/lexus.webp";
+import volvo from "../images/volvo.webp";
+import maserati from "../images/maserati.jpeg";
 import theme from "./themes";
 
 const customTheme = extendTheme(theme);

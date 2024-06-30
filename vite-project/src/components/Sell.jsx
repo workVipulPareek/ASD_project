@@ -7,7 +7,8 @@ import car3 from '../images/sell3.webp';
 import pay from '../images/pay.png';
 import schedule from '../images/schedule.png';
 import offer from '../images/offer.png';
-
+import Axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 const customTheme = extendTheme(theme);
 
@@ -20,12 +21,19 @@ const Sell = () => {
   const [vehicleCompany, setVehicleCompany] = useState('');
   const [description, setDescription] = useState('');
   const [isValid, setIsValid] = useState(true);
-
+  const navigate = useNavigate();
+  
   const handleSubmit = (e) => {
     e.preventDefault();
+    
+    // Validation pattern for vehicle number
     const pattern = /^[A-Z]{5}\d{2}[A-Z]{2}\d{1}[A-Z]{1}\d{6}$/;
+    
+    // Check if vehicle number matches the pattern
     if (pattern.test(vehicleNumber)) {
       setIsValid(true);
+      
+      // Alert with form data
       alert(`Form Submitted Successfully
         Name: ${name}
         Email: ${email}
@@ -34,11 +42,18 @@ const Sell = () => {
         Vehicle Model: ${vehicleModel}
         Vehicle Number: ${vehicleNumber}
         Description: ${description}`);
+      
+      // Send form data to the server
+      Axios.post('http://localhost:3000/sell', { name, email, phone, vehicleNumber, vehicleModel, vehicleCompany, description })
+        .then(result => {
+          console.log(result);
+          navigate('/sell');
+        })
+        .catch(err => console.log(err));
     } else {
       setIsValid(false);
     }
   };
-
   return (
     <ChakraProvider theme={customTheme}>
       <div className='main-body'>

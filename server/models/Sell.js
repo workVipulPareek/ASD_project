@@ -8,7 +8,8 @@ const EmployeeSchema = new mongoose.Schema({
     vehicleModel : String ,
     vehicleCompany : String ,
     description : String ,
-    isValid  : String 
+    isValid  : String ,
+    status : String
 })
 
 const EmployeeModel = mongoose.model("sales" , EmployeeSchema)

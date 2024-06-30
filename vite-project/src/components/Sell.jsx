@@ -21,6 +21,7 @@ const Sell = () => {
   const [vehicleCompany, setVehicleCompany] = useState('');
   const [description, setDescription] = useState('');
   const [isValid, setIsValid] = useState(true);
+  const [status] = useState('Pending');
   const navigate = useNavigate();
   
   const handleSubmit = (e) => {
@@ -44,7 +45,7 @@ const Sell = () => {
         Description: ${description}`);
       
       // Send form data to the server
-      Axios.post('http://localhost:3000/sell', { name, email, phone, vehicleNumber, vehicleModel, vehicleCompany, description })
+      Axios.post('http://localhost:3000/sell', { name, email, phone, vehicleNumber, vehicleModel, vehicleCompany, description , status })
         .then(result => {
           console.log(result);
           navigate('/sell');

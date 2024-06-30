@@ -1,0 +1,16 @@
+.main-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f5f5f5;
+  }
+  
+  .chakra-tabs__tablist {
+    flex-direction: row;
+  }
+  
+  .chakra-tabs__tab {
+    margin-bottom: 10px;
+  }
+  

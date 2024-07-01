@@ -23,6 +23,7 @@ const BasicExample = () => {
               <Nav.Link href="/Buy" className="fs-3">Buy</Nav.Link>
               <Nav.Link href="/Sell" className="fs-3">Sell</Nav.Link>
               <Nav.Link href="/Services" className="fs-3">Services</Nav.Link>
+              <Nav.Link href="/aboutus" className="fs-3">About Us</Nav.Link>
             </Nav>
             <Button as={RouterLink} to="/Login" colorScheme="teal" variant='solid' size='lg' m={5} p={5}>Sign In</Button>
           </Navbar.Collapse>

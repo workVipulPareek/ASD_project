@@ -12,7 +12,7 @@ import Admin from './components/Admin';
 import UserLogin from './components/UserLogin';
 import AdminLogin from './components/AdminLogin';
 import './App.css';
-
+import Aboutus from './components/AboutUs.jsx';
 // Optionally, extend the theme here if you have custom theme settings
 const theme = extendTheme({
   // Add your custom theme settings here
@@ -33,6 +33,7 @@ const App = () => {
             <Route path='/admin' element={<Admin />} />
             <Route path='/AdminLogin' element={<AdminLogin />} />
             <Route path='/UserLogin' element={<UserLogin />} />
+            <Route path='/aboutus' element={<Aboutus />} />
           </Routes>
           <Footer />
         </div>

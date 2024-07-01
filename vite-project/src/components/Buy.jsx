@@ -1,15 +1,5 @@
 import React from "react";
-import {
-  VStack,
-  Grid,
-  Box,
-  Button,
-  Heading,
-  Text,
-  Image,
-  extendTheme,
-  ChakraProvider,
-} from "@chakra-ui/react";
+import { VStack, Grid, Box, Button, Heading, Text, Image, extendTheme, ChakraProvider } from "@chakra-ui/react";
 import rollsroyce from "../images/rollsroyce.webp";
 import bentely from "../images/bentley.webp";
 import mercedes from "../images/mercedes.webp";
@@ -91,7 +81,9 @@ const cars = [
 
 const Buy = () => {
   return (
+    
     <ChakraProvider theme={customTheme}>
+      
       <div className="main-body">
         <VStack spacing={8} align="stretch">
           <Box textAlign="center" mb={8}>
@@ -102,6 +94,7 @@ const Buy = () => {
           <Grid templateColumns="repeat(3, 1fr)" gap={6}>
             {cars.map((car) => (
               <Box
+                key={car.id}
                 bg="#CBD5E0"
                 width="100%"
                 p={4}
@@ -113,6 +106,7 @@ const Buy = () => {
               >
                 <Box h="70%" overflow="hidden">
                   <Image
+
                     src={car.image}
                     alt={car.name}
                     objectFit="cover"

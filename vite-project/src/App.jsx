@@ -11,9 +11,13 @@ import LoginForm from './components/Login';
 import Admin from './components/Admin';
 import UserLogin from './components/UserLogin';
 import AdminLogin from './components/AdminLogin';
+import AdminRegister from './components/AdminRegister';
+import UserRegister from './components/UserRegister';
+import Inventory from './components/Inventory';
+import SellData from './components/sellData';
+import UsersData from './components/usersData';
 import './App.css';
 
-// Optionally, extend the theme here if you have custom theme settings
 const theme = extendTheme({
   // Add your custom theme settings here
 });
@@ -22,20 +26,25 @@ const App = () => {
   return (
     <ChakraProvider theme={theme}>
       <Router>
-        <div>
-          <Header />
-          <Routes>
-            <Route path='/' element={<Home />} />
-            <Route path='/buy' element={<Buy />} />
-            <Route path='/sell' element={<Sell />} />
-            <Route path='/services' element={<Services />} />
-            <Route path='/login' element={<LoginForm />} />
-            <Route path='/admin' element={<Admin />} />
-            <Route path='/AdminLogin' element={<AdminLogin />} />
-            <Route path='/UserLogin' element={<UserLogin />} />
-          </Routes>
-          <Footer />
-        </div>
+        <Header /> {/* Header is rendered outside of Routes */}
+        <Routes>
+          
+          <Route path='/' element={<Home />} />
+          <Route path='/Home' element={<Home />} />
+          <Route path='/LoginForm' element={<LoginForm />} />
+          <Route path='/buy' element={<Buy />} />
+          <Route path='/sell' element={<Sell />} />
+          <Route path='/services' element={<Services />} />
+          <Route path='/AdminLogin' element={<AdminLogin />} />
+          <Route path='/UserLogin' element={<UserLogin />} />
+          <Route path='/UserRegister' element={<UserRegister />} />
+          <Route path='/AdminRegister' element={<AdminRegister />} />
+          <Route path='/Inventory' element={<Inventory />} />
+          <Route path='/SellData' element={<SellData />} />
+          <Route path='/UsersData' element={<UsersData />} />
+          <Route path='/admin' element={<Admin />} /> {/* Render Admin routes */}
+        </Routes>
+        <Footer />
       </Router>
     </ChakraProvider>
   );

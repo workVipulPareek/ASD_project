@@ -3,6 +3,7 @@ import { extendTheme, ChakraProvider, Flex, Box, Heading, FormControl, FormLabel
 import 'bootstrap/dist/css/bootstrap.min.css';
 import auto_mechanic from '../images/auto_Mechanic.jpg';
 import theme from './themes';
+import axios from 'axios';
 
 const customTheme = extendTheme(theme);
 
@@ -20,23 +21,36 @@ const Service = () => {
   const [isValid, setIsValid] = useState(true); // Initially true, assuming form starts valid
 
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     const pattern = /^[A-Z]{5}\d{2}[A-Z]{2}\d{1}[A-Z]{1}\d{6}$/;
     if (pattern.test(vehicleNumber)) {
       setIsValid(true);
-      alert(`Form Submitted Successfully
-        Name: ${name}
-        Email: ${email}
-        Phone: ${phone}
-        Service Type: ${serviceType}
-        Vehicle Company: ${vehicleCompany}
-        Vehicle Model: ${vehicleModel}
-        Vehicle Number: ${vehicleNumber}
-        Service Date: ${date}
-        Description: ${description}`);
     } else {
       setIsValid(false);
+    }
+    console.log("Submitting:", { name, email, phone, serviceType, vehicleCompany, vehicleModel, vehicleNumber, date, description });
+  
+    try {
+      const token = localStorage.getItem('token');  // Retrieve the token from localStorage
+      if (!token) {
+        alert('You need to log in first');
+        return;
+      }
+  
+      const response = await axios.post('http://localhost:5000/Services', {
+        name, email, phone, serviceType, vehicleCompany, vehicleModel, vehicleNumber, date, description
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+  
+      console.log("Service request successful:", response.data);
+      alert(response.data.message);
+    } catch (error) {
+      console.error("Service request error:", error.response?.data || error.message);
+      alert(error.response?.data?.error || "An error occurred while sending Service request");
     }
   };
 

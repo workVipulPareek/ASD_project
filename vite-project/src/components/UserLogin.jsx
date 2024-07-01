@@ -1,13 +1,29 @@
 import React, { useState } from 'react';
+import { Route, Router, useNavigate } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import { ChakraProvider, Flex, Box, Heading, FormControl, FormLabel, Input, Button, Center } from '@chakra-ui/react';
+import axios from 'axios';
 
 function UserLogin() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        alert(`Email: ${email} & Password: ${password}`);
+        console.log("Submitting:", { email, password }); // Log for debugging
+        axios.post('http://localhost:5000/UserLogin', { email, password })
+            .then(response => {
+                const { token } = response.data;
+                localStorage.setItem('token', token);
+                console.log("Login successful:", response.data);
+                alert(response.data.message);
+                navigate('/');
+            })
+            .catch(error => {
+                console.error("Login error:", error.response?.data || error.message);
+                alert(error.response?.data?.error || "An error occurred");
+            });
     };
 
     return (
@@ -45,7 +61,7 @@ function UserLogin() {
                                 <hr />
                                 
                                 <Center mt={4}>
-                                    <Button colorScheme="teal" variant="link">Create Account</Button>
+                                    <Button colorScheme="teal" as={RouterLink} to="/UserRegister" variant="link">Didn't have an Account? Create one!</Button>
                                 </Center>
                             </form>
                         </Box>

@@ -7,6 +7,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <App />
+      <App />
+      
   </React.StrictMode>,
 )

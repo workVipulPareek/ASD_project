@@ -18,7 +18,9 @@ function UserLogin() {
                 localStorage.setItem('token', token);
                 console.log("Login successful:", response.data);
                 alert(response.data.message);
-                navigate('/');
+                //refresh the page
+                navigate('/Home');
+                window.location.reload();
             })
             .catch(error => {
                 console.error("Login error:", error.response?.data || error.message);

@@ -16,6 +16,7 @@ import UserRegister from './components/UserRegister';
 import Inventory from './components/Inventory';
 import SellData from './components/sellData';
 import UsersData from './components/usersData';
+import AboutUs from './components/AboutUs';
 import './App.css';
 
 const theme = extendTheme({
@@ -35,6 +36,7 @@ const App = () => {
           <Route path='/buy' element={<Buy />} />
           <Route path='/sell' element={<Sell />} />
           <Route path='/services' element={<Services />} />
+          <Route path='/AboutUs' element={<AboutUs />} />
           <Route path='/AdminLogin' element={<AdminLogin />} />
           <Route path='/UserLogin' element={<UserLogin />} />
           <Route path='/UserRegister' element={<UserRegister />} />

@@ -18,7 +18,8 @@ const Register = () => {
             .then(response => {
                 console.log("Registration successful:", response.data);
                 alert(response.data.message);
-                navigate('/Login');  // Navigate to login after successful registration
+                navigate('/Home');
+                window.location.reload();
             })
             .catch(error => {
                 console.error("Registration error:", error.response?.data || error.message);

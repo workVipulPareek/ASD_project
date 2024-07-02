@@ -1,0 +1,42 @@
+/* aboutus.css */
+
+/* Increase text size by 1.5x */
+body {
+    font-size: 1.5rem; /* Assuming the base font size is 16px */
+  }
+  
+  /* Bold and underline headers */
+  h2 {
+    font-weight: bold;
+    text-decoration: underline;
+  }
+  
+  /* Hover effect on cards */
+  .card {
+    transition: transform 0.3s ease;
+    border: 1px solid #dee2e6; /* Add a border to distinguish cards */
+    border-radius: 8px; /* Add border radius for rounded corners */
+    padding: 15px; /* Add padding for spacing inside the card */
+    margin-bottom: 20px; /* Add margin for spacing between cards */
+  }
+  
+  /* Different background colors for cards */
+  .card:nth-child(odd) {
+    background-color: #f8f9fa; /* Light gray background for odd-indexed cards */
+  }
+  
+  .card:nth-child(even) {
+    background-color: #e9ecef; /* Light blue-gray background for even-indexed cards */
+  }
+  
+  .card:hover {
+    transform: translateY(-5px); /* Move card up on hover */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add shadow effect */
+  }
+  
+  /* Hover effect on h2 headers */
+  h2:hover {
+    color: #007bff; /* Change text color on hover */
+    cursor: pointer; /* Change cursor to pointer on hover */
+  }
+  

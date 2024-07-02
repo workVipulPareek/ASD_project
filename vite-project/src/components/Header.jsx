@@ -47,9 +47,10 @@ const Header = () => {
               <Nav.Link href="/Buy" className="fs-3">Buy</Nav.Link>
               <Nav.Link href="/Sell" className="fs-3">Sell</Nav.Link>
               <Nav.Link href="/Services" className="fs-3">Services</Nav.Link>
+              <Nav.Link href="/AboutUs" className="fs-3">About Us</Nav.Link>
             </Nav>
               {authenticated ?(
-                <Button onClick={handleLogout} colorScheme="teal" variant='solid' size='lg' m={5} p={5}>Logout</Button>
+                <Button onClick={handleLogout} colorScheme="red" variant='solid' size='lg' m={5} p={5}>Logout</Button>
               ) : (
                 <Button as={RouterLink} to="/LoginForm" colorScheme="teal" variant='solid' size='lg' m={5} p={5}>Login</Button>
               ) }

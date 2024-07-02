@@ -19,7 +19,7 @@ const SellData = mongoose.model('SellData', sellDataSchema);
 const postData = async (req, res) => {
     try {
         // Extract data from request body
-        const { name, email, phone, vehicleNumber, vehicleModel, vehicleCompany, description } = req.body;
+        const { name, email, phone, vehicleNumber, vehicleModel, vehicleCompany, description , status} = req.body;
 
         // Create a new SellData document
         const result = await SellData.create({
@@ -30,6 +30,7 @@ const postData = async (req, res) => {
             vehicleModel,
             vehicleCompany,
             description,
+            status ,
             userId: req.userId  // Include the userId from the request object
         });
 

@@ -143,6 +143,15 @@ app.post('/Sell', AuthContext, postData);
 //service endpoint
 app.post('/Services',AuthContext,postServiceData);
 
+router.get('/sales', async (req, res) => {
+  try {
+    const vehicles = await postData.find({}, 'name vehicleModel status');
+    res.json(vehicles);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 // Start server
 app.listen(port, function () {
   console.log(`Server running on port ${port}`);

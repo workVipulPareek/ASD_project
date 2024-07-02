@@ -7,8 +7,7 @@ import car3 from '../images/sell3.webp';
 import pay from '../images/pay.png';
 import schedule from '../images/schedule.png';
 import offer from '../images/offer.png';
-import Axios from "axios";
-import { useNavigate } from 'react-router-dom';
+
 
 const customTheme = extendTheme(theme);
 
@@ -21,9 +20,7 @@ const Sell = () => {
   const [vehicleCompany, setVehicleCompany] = useState('');
   const [description, setDescription] = useState('');
   const [isValid, setIsValid] = useState(true);
-  const [status] = useState('Pending');
-  const navigate = useNavigate();
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
     
@@ -39,9 +36,11 @@ const Sell = () => {
         Name: ${name}
         Email: ${email}
         Phone: ${phone}
+        Service Type: ${serviceType}
         Vehicle Company: ${vehicleCompany}
         Vehicle Model: ${vehicleModel}
         Vehicle Number: ${vehicleNumber}
+        Service Date: ${date}
         Description: ${description}`);
       
       // Send form data to the server
@@ -54,11 +53,34 @@ const Sell = () => {
     } else {
       setIsValid(false);
     }
+    
+    console.log("Submitting:", { name, email, phone, vehicleNumber, vehicleModel, vehicleCompany, description });
+  
+    try {
+      const token = localStorage.getItem('token');  // Retrieve the token from localStorage
+      if (!token) {
+        alert('You need to log in first');
+        return;
+      }
+  
+      const response = await axios.post('http://localhost:5000/Sell', {
+        name, email, phone, vehicleNumber, vehicleModel, vehicleCompany, description
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+  
+      console.log("Sell request successful:", response.data);
+      alert(response.data.message);
+    } catch (error) {
+      console.error("Sell request error:", error.response?.data || error.message);
+      alert(error.response?.data?.error || "An error occurred while selling");
+    }
   };
   return (
     <ChakraProvider theme={customTheme}>
       <div className='main-body'>
-
         <Box textAlign="center">
           <Heading variant={"main"} as={"h2"} size={"3xl"} color={"teal"}>
             Sell Your Car On your Terms

@@ -11,8 +11,13 @@ import LoginForm from './components/Login';
 import Admin from './components/Admin';
 import UserLogin from './components/UserLogin';
 import AdminLogin from './components/AdminLogin';
+import AdminRegister from './components/AdminRegister';
+import UserRegister from './components/UserRegister';
+import Inventory from './components/Inventory';
+import SellData from './components/sellData';
+import UsersData from './components/usersData';
 import './App.css';
-import Aboutus from './components/AboutUs.jsx';
+
 // Optionally, extend the theme here if you have custom theme settings
 const theme = extendTheme({
   // Add your custom theme settings here
@@ -33,7 +38,6 @@ const App = () => {
             <Route path='/admin' element={<Admin />} />
             <Route path='/AdminLogin' element={<AdminLogin />} />
             <Route path='/UserLogin' element={<UserLogin />} />
-            <Route path='/aboutus' element={<Aboutus />} />
           </Routes>
           <Footer />
         </div>

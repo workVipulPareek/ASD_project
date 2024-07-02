@@ -1,117 +1,70 @@
-import React, { useState, useEffect } from 'react';
-import { ChakraProvider, Box, Tab, TabList, TabPanel, TabPanels, Tabs, Heading, Button, List, ListItem, Text, Flex } from '@chakra-ui/react';
-import { Pie, Bar } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, ArcElement, Title, Tooltip, Legend } from 'chart.js';
-import axios from 'axios';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useState } from 'react';
+import { ChakraProvider, Box, Tab, TabList, TabPanel, TabPanels, Tabs, Heading, Button, List, ListItem } from '@chakra-ui/react';
 
-// Register Chart.js components once
-ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Title, Tooltip, Legend);
+const Admin = ({showHeader = false}) => {
+  const authenticated = isLoggedIn();
 
-const Admin = () => {
+  const handleLogout = () => {
+    logout();
+    // Redirect or handle logout logic as needed
+  };
+
   return (
     <ChakraProvider>
       <div className='main-body'>
-        <Box p={5}>
-          <Heading as="h1" size="xl" mb={5} textAlign="center" fontWeight="extrabold">Admin Panel</Heading>
-          <Tabs variant="enclosed" size="lg">
-            <TabList>
-              <Tab 
-                _selected={{ bg: 'black', color: 'white', fontWeight: 'bold' }} 
-                bg="lightblue" 
-                color="white" 
-                fontWeight="bold" 
-                _hover={{ bg: 'blue.300' }}
-              >
-                User Info
-              </Tab>
-              <Tab 
-                _selected={{ bg: 'black', color: 'white', fontWeight: 'bold' }} 
-                bg="lightblue" 
-                color="white" 
-                fontWeight="bold" 
-                _hover={{ bg: 'blue.300' }}
-              >
-                Services Request
-              </Tab>
-              <Tab 
-                _selected={{ bg: 'black', color: 'white', fontWeight: 'bold' }} 
-                bg="lightblue" 
-                color="white" 
-                fontWeight="bold" 
-                _hover={{ bg: 'blue.300' }}
-              >
-                Sell Info
-              </Tab>
-              <Tab 
-                _selected={{ bg: 'black', color: 'white', fontWeight: 'bold' }} 
-                bg="lightblue" 
-                color="white" 
-                fontWeight="bold" 
-                _hover={{ bg: 'blue.300' }}
-              >
-                Buy Info
-              </Tab>
-            </TabList>
-            <TabPanels>
-              <TabPanel>
-                <UserInfo />
-              </TabPanel>
-              <TabPanel>
-                <ServiceRequest />
-              </TabPanel>
-              <TabPanel>
-                <SellInfo />
-              </TabPanel>
-              <TabPanel>
-                <BuyInfo />
-              </TabPanel>
-            </TabPanels>
-          </Tabs>
-        </Box>
+      <Box p={5}>
+        <Heading as="h1" size="xl" mb={5}>Admin Panel</Heading>
+        <Tabs variant="enclosed">
+          <TabList>
+            <Tab>User Info</Tab>
+            <Tab>Services Request</Tab>
+            <Tab>Sell Info</Tab>
+            <Tab>Buy Info</Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
+              <UserInfo />
+            </TabPanel>
+            <TabPanel>
+              <ServiceRequest />
+            </TabPanel>
+            <TabPanel>
+              <SellInfo />
+            </TabPanel>
+            <TabPanel>
+              <BuyInfo />
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
+      </Box>
       </div>
     </ChakraProvider>
   );
 };
 
 const UserInfo = () => {
-  const [users, setUsers] = useState([]);
-
-  useEffect(() => {
-    axios.get('http://localhost:3000/users')
-      .then(response => {
-        setUsers(response.data);
-      })
-      .catch(error => {
-        console.log('Error fetching users:', error);
-      });
-  }, []);
+  const [users, setUsers] = useState([
+    { id: 1, name: 'John Doe', email: 'john.doe@example.com', role: 'Admin' },
+    { id: 2, name: 'Jane Smith', email: 'jane.smith@example.com', role: 'User' },
+  ]);
 
   const deleteUser = (id) => {
-    axios.delete(`http://localhost:3000/users/${id}`)
-      .then(response => {
-        setUsers(users.filter(user => user.id !== id));
-      })
-      .catch(error => {
-        console.log('Error deleting user:', error);
-      });
+    setUsers(users.filter(user => user.id !== id));
   };
 
   return (
     <Box>
       <Heading as="h2" size="lg" mb={4}>User Info</Heading>
-      <List spacing={5}>
+      <List spacing={3}>
         {users.map((user) => (
           <ListItem key={user.id}>
-            <Box p={4} boxShadow="lg" borderRadius="md" bg="white">
-              <Flex justifyContent="space-between" alignItems="center">
-                <Box>
-                  <Text fontSize="lg"><strong>Name:</strong> {user.name}</Text>
-                  <Text fontSize="lg"><strong>Email:</strong> {user.email}</Text>
-                  <Text fontSize="lg"><strong>Role:</strong> {user.role}</Text>
-                </Box>
-                <Button colorScheme="red" onClick={() => deleteUser(user.id)}>Delete</Button>
-              </Flex>
+            <Box display="flex" justifyContent="space-between" alignItems="center">
+              <Box>
+                <p><strong>Name:</strong> {user.name}</p>
+                <p><strong>Email:</strong> {user.email}</p>
+                <p><strong>Role:</strong> {user.role}</p>
+              </Box>
+              <Button colorScheme="red" onClick={() => deleteUser(user.id)}>Delete</Button>
             </Box>
           </ListItem>
         ))}
@@ -121,65 +74,33 @@ const UserInfo = () => {
 };
 
 const ServiceRequest = () => {
-  const [requests, setRequests] = useState([]);
-
-  useEffect(() => {
-    axios.get('http://localhost:3000/service-requests')
-      .then(response => {
-        setRequests(response.data);
-      })
-      .catch(error => {
-        console.log('Error fetching service requests:', error);
-      });
-  }, []);
+  const [requests, setRequests] = useState([
+    { id: 1, service: 'Web Hosting', status: 'Pending' },
+    { id: 2, service: 'Domain Registration', status: 'Completed' },
+  ]);
 
   const deleteRequest = (id) => {
-    axios.delete(`http://localhost:3000/service-requests/${id}`)
-      .then(response => {
-        setRequests(requests.filter(request => request.id !== id));
-      })
-      .catch(error => {
-        console.log('Error deleting request:', error);
-      });
+    setRequests(requests.filter(request => request.id !== id));
   };
 
   const forwardRequest = (id) => {
     alert(`Service request ${id} forwarded.`);
   };
 
-  const pendingRequests = requests.filter(request => request.status === 'Pending').length;
-  const completedRequests = requests.filter(request => request.status === 'Completed').length;
-
-  const data = {
-    labels: ['Pending', 'Completed'],
-    datasets: [
-      {
-        data: [pendingRequests, completedRequests],
-        backgroundColor: ['#FF6384', '#36A2EB'],
-        hoverBackgroundColor: ['#FF6384', '#36A2EB']
-      }
-    ]
-  };
-
   return (
     <Box>
       <Heading as="h2" size="lg" mb={4}>Services Request</Heading>
-      <Pie data={data} />
-      <List spacing={5} mt={5}>
+      <List spacing={3}>
         {requests.map((request) => (
           <ListItem key={request.id}>
-            <Box p={4} boxShadow="lg" borderRadius="md" bg="white">
-              <Flex justifyContent="space-between" alignItems="center">
-                <Box>
-                  <Text fontSize="lg"><strong>Name:</strong> {request.name}</Text>
-                  <Text fontSize="lg"><strong>Service:</strong> {request.service}</Text>
-                  <Text fontSize="lg"><strong>Status:</strong> {request.status}</Text>
-                </Box>
-                <Box>
-                  <Button colorScheme="blue" mr={2} onClick={() => forwardRequest(request.id)}>Forward</Button>
-                  <Button colorScheme="red" onClick={() => deleteRequest(request.id)}>Delete</Button>
-                </Box>
-              </Flex>
+            <Box display="flex" justifyContent="space-between" alignItems="center">
+              <Box>
+                <p>{request.service} - {request.status}</p>
+              </Box>
+              <Box>
+                <Button colorScheme="blue" mr={2} onClick={() => forwardRequest(request.id)}>Forward</Button>
+                <Button colorScheme="red" onClick={() => deleteRequest(request.id)}>Delete</Button>
+              </Box>
             </Box>
           </ListItem>
         ))}
@@ -189,134 +110,41 @@ const ServiceRequest = () => {
 };
 
 const SellInfo = () => {
-  const [sales, setSales] = useState([]);
-
-  useEffect(() => {
-    axios.get('http://localhost:3000/sales')
-      .then(response => {
-        setSales(response.data);
-      })
-      .catch(error => {
-        console.log('Error fetching sales:', error);
-      });
-  }, []);
-
-  const soldItems = sales.filter(sale => sale.status === 'Sold').length;
-  const pendingItems = sales.filter(sale => sale.status === 'Pending').length;
-
-  const data = {
-    labels: ['Sold', 'Pending'],
-    datasets: [
-      {
-        label: 'Sales Status',
-        data: [soldItems, pendingItems],
-        backgroundColor: ['#FF6384', '#36A2EB'],
-        hoverBackgroundColor: ['#FF6384', '#36A2EB']
-      }
-    ]
-  };
-
-  const options = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        display: false
-      },
-      title: {
-        display: true,
-        text: 'Sales Status',
-        font: {
-          size: 20
-        }
-      }
-    },
-    scales: {
-      x: {
-        grid: {
-          display: false
-        }
-      },
-      y: {
-        beginAtZero: true
-      }
-    }
-  };
+  const [sales, setSales] = useState([
+    { id: 1, item: 'Laptop', price: '$1000', status: 'Sold' },
+    { id: 2, item: 'Phone', price: '$500', status: 'Pending' },
+  ]);
 
   return (
-    <ChakraProvider>
-      <Box p={5}>
-        <Heading as="h2" size="lg" mb={4}>Sell Info</Heading>
-        <Box height="150px" width="100%">
-          <Bar data={data} options={options} />
-        </Box>
-        <Box mt={4}>
-          <List spacing={5}>
-            {sales.map((sale) => (
-              <ListItem key={sale.id}>
-                <Box p={4} boxShadow="lg" borderRadius="md" bg="white">
-                  <Text fontSize="lg"><strong>Name:</strong> {sale.name}</Text>
-                  <Text fontSize="lg"><strong>Item:</strong> {sale.vehicleModel}</Text>
-                  <Text fontSize="lg"><strong>Status:</strong> {sale.status}</Text>
-                </Box>
-              </ListItem>
-            ))}
-          </List>
-        </Box>
-      </Box>
-    </ChakraProvider>
+    <Box>
+      <Heading as="h2" size="lg" mb={4}>Sell Info</Heading>
+      <List spacing={3}>
+        {sales.map((sale) => (
+          <ListItem key={sale.id}>
+            <p>{sale.item} - {sale.price} - {sale.status}</p>
+          </ListItem>
+        ))}
+      </List>
+    </Box>
   );
 };
 
-
 const BuyInfo = () => {
-  const [buyers, setBuyers] = useState([]);
-
-  useEffect(() => {
-    axios.get('http://localhost:3000/buyers')
-      .then(response => {
-        setBuyers(response.data);
-      })
-      .catch(error => {
-        console.log('Error fetching buyers:', error);
-      });
-  }, []);
-
-  const interestedBuyers = buyers.filter(buyer => buyer.status === 'Interested').length;
-  const purchasedBuyers = buyers.filter(buyer => buyer.status === 'Purchased').length;
-
-  const data = {
-    labels: ['Interested', 'Purchased'],
-    datasets: [
-      {
-        data: [interestedBuyers, purchasedBuyers],
-        backgroundColor: ['#FF6384', '#36A2EB'],
-        hoverBackgroundColor: ['#FF6384', '#36A2EB']
-      }
-    ]
-  };
+  const [buyers, setBuyers] = useState([
+    { id: 1, name: 'Alice', car: 'Toyota', status: 'Interested' },
+    { id: 2, name: 'Bob', car: 'Honda', status: 'Purchased' },
+  ]);
 
   return (
     <Box>
       <Heading as="h2" size="lg" mb={4}>Buy Info</Heading>
-      <Flex>
-        <Box flex="1">
-          <List spacing={5}>
-            {buyers.map((buyer) => (
-              <ListItem key={buyer.id}>
-                <Box p={4} boxShadow="lg" borderRadius="md" bg="white">
-                  <Text fontSize="lg"><strong>Name:</strong> {buyer.name}</Text>
-                  <Text fontSize="lg"><strong>Car:</strong> {buyer.car}</Text>
-                  <Text fontSize="lg"><strong>Status:</strong> {buyer.status}</Text>
-                </Box>
-              </ListItem>
-            ))}
-          </List>
-        </Box>
-        <Box>
-          <Pie data={data} width={150} height={150} />
-        </Box>
-      </Flex>
+      <List spacing={3}>
+        {buyers.map((buyer) => (
+          <ListItem key={buyer.id}>
+            <p>{buyer.name} - {buyer.car} - {buyer.status}</p>
+          </ListItem>
+        ))}
+      </List>
     </Box>
   );
 };

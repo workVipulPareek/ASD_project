@@ -17,6 +17,12 @@ import Inventory from './components/Inventory';
 import SellData from './components/sellData';
 import UsersData from './components/usersData';
 import AboutUs from './components/AboutUs';
+import AdminBuy from './components/AdminBuy';
+import AdminSell from './components/AdminSell';
+import AdminServices from './components/AdminServices';
+import AdminUser from './components/AdminUser';
+import UserProfile from './components/UserProfile';
+import EditUserProfile from './components/EditUserProfile';
 import './App.css';
 
 const theme = extendTheme({
@@ -27,9 +33,9 @@ const App = () => {
   return (
     <ChakraProvider theme={theme}>
       <Router>
+        
         <Header /> {/* Header is rendered outside of Routes */}
         <Routes>
-          
           <Route path='/' element={<Home />} />
           <Route path='/Home' element={<Home />} />
           <Route path='/LoginForm' element={<LoginForm />} />
@@ -44,7 +50,14 @@ const App = () => {
           <Route path='/Inventory' element={<Inventory />} />
           <Route path='/SellData' element={<SellData />} />
           <Route path='/UsersData' element={<UsersData />} />
-          <Route path='/admin' element={<Admin />} /> {/* Render Admin routes */}
+          <Route path='/AdminUser' element={<AdminUser />} />
+          <Route path='/AdminSell' element={<AdminSell />} />
+          <Route path='/AdminServices' element={<AdminServices />} />
+          <Route path='/AdminBuy' element={<AdminBuy />} />
+          <Route path='/admin' element={<Admin />} /> 
+          <Route path='/userprofile' element={<UserProfile />} /> 
+          <Route path='/usereditprofile' element={<EditUserProfile />} /> 
+          {/* Render Admin routes */}
         </Routes>
         <Footer />
       </Router>

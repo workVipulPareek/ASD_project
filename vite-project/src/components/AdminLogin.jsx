@@ -3,21 +3,24 @@ import {useNavigate } from 'react-router-dom';
 import { Link as RouterLink } from 'react-router-dom';
 import { ChakraProvider, Flex, Box, Heading, FormControl, FormLabel, Input, Button, Center } from '@chakra-ui/react';
 import axios from 'axios';
-
+import AdminUser from './AdminUser'
 function AdminLogin() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const[roles] = useState('admin');
+
     const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("Submitting:", { email, password }); // Log for debugging
-        axios.post('http://localhost:5000/AdminLogin', { email, password })
+        console.log("Submitting:", { email, password , roles}); // Log for debugging
+        axios.post('http://localhost:5000/AdminLogin', { email, password , roles})
             .then(response => {
-                const { token } = response.data;
+                const { token , roles} = response.data;
                 localStorage.setItem('token', token);
+                localStorage.setItem('roles', JSON.stringify(roles));
                 console.log("Login successful:", response.data);
-                navigate('/Home');
+                navigate('/AdminUser');
                 window.location.reload();
             })
             .catch(error => {

@@ -7,7 +7,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import axios from 'axios';
 import { Bar, Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement } from 'chart.js';
-import { isLoggedIn, logout } from '../../server/authUtil';
+import { isLoggedIn, logout } from '../../../server/authUtil';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement);
 
@@ -75,7 +75,7 @@ const UserInfo = () => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:3000/users')
+    axios.get('http://localhost:5000/users')
       .then(response => {
         if (Array.isArray(response.data)) {
           setUsers(response.data);
@@ -89,9 +89,9 @@ const UserInfo = () => {
   }, []);
 
   const deleteUser = (id) => {
-    axios.delete(`http://localhost:3000/users/${id}`)
+    axios.delete(`http://localhost:5000/users/${email}`)
       .then(response => {
-        setUsers(users.filter(user => user.id !== id));
+        setUsers(users.filter(user => user.email !== email));
       })
       .catch(error => {
         console.log('Error deleting user:', error);
@@ -125,7 +125,7 @@ const ServiceRequest = () => {
   const [requests, setRequests] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:3000/service-requests')
+    axios.get('http://localhost:5000/services')
       .then(response => {
         if (Array.isArray(response.data)) {
           setRequests(response.data);
@@ -139,9 +139,9 @@ const ServiceRequest = () => {
   }, []);
 
   const deleteRequest = (id) => {
-    axios.delete(`http://localhost:3000/service-requests/${id}`)
+    axios.delete(`http://localhost:5000/Services/${email}`)
       .then(response => {
-        setRequests(requests.filter(request => request.id !== id));
+        setRequests(requests.filter(request => request.email !== email));
       })
       .catch(error => {
         console.log('Error deleting request:', error);
@@ -196,7 +196,7 @@ const SellInfo = () => {
   const [sales, setSales] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:3000/sales')
+    axios.get('http://localhost:5000/sales')
       .then(response => {
         if (Array.isArray(response.data)) {
           setSales(response.data);
@@ -274,11 +274,11 @@ const SellInfo = () => {
   );
 };
 
-const BuyInfo = () => {
+  const BuyInfo = () => {
   const [buyers, setBuyers] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:3000/buyers')
+    axios.get('http://localhost:5000/buyers')
       .then(response => {
         if (Array.isArray(response.data)) {
           setBuyers(response.data);

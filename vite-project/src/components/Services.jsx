@@ -18,6 +18,7 @@ const Service = () => {
   const [vehicleCompany, setVehicleCompany] = useState('');
   const [date, setDate] = useState('');
   const [description, setDescription] = useState('');
+  const [status] = useState('Pending');
   const [isValid, setIsValid] = useState(true); // Initially true, assuming form starts valid
 
 
@@ -29,7 +30,7 @@ const Service = () => {
     } else {
       setIsValid(false);
     }
-    console.log("Submitting:", { name, email, phone, serviceType, vehicleCompany, vehicleModel, vehicleNumber, date, description });
+    console.log("Submitting:", { name, email, phone, serviceType, vehicleCompany, vehicleModel, vehicleNumber, date, description , status });
   
     try {
       const token = localStorage.getItem('token');  // Retrieve the token from localStorage
@@ -39,7 +40,7 @@ const Service = () => {
       }
   
       const response = await axios.post('http://localhost:5000/Services', {
-        name, email, phone, serviceType, vehicleCompany, vehicleModel, vehicleNumber, date, description
+        name, email, phone, serviceType, vehicleCompany, vehicleModel, vehicleNumber, date,  description ,status
       }, {
         headers: {
           Authorization: `Bearer ${token}`

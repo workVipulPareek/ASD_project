@@ -21,9 +21,11 @@ const Sell = () => {
   const [vehicleCompany, setVehicleCompany] = useState('');
   const [description, setDescription] = useState('');
   const [isValid, setIsValid] = useState(true);
+  const [status] = useState('Pending');
   
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const pattern = /^[A-Z]{5}\d{2}[A-Z]{2}\d{1}[A-Z]{1}\d{6}$/;
     if (pattern.test(vehicleNumber)) {
       setIsValid(true);
@@ -31,38 +33,49 @@ const Sell = () => {
         Name: ${name}
         Email: ${email}
         Phone: ${phone}
-        Service Type: ${serviceType}
         Vehicle Company: ${vehicleCompany}
         Vehicle Model: ${vehicleModel}
         Vehicle Number: ${vehicleNumber}
-        Service Date: ${date}
         Description: ${description}`);
     } else {
       setIsValid(false);
+      alert('Vehicle number format is invalid');
+      return;
     }
-    
+
     console.log("Submitting:", { name, email, phone, vehicleNumber, vehicleModel, vehicleCompany, description });
-  
+
     try {
       const token = localStorage.getItem('token');  // Retrieve the token from localStorage
       if (!token) {
         alert('You need to log in first');
         return;
       }
-  
-      const response = await axios.post('http://localhost:5000/Sell', {
-        name, email, phone, vehicleNumber, vehicleModel, vehicleCompany, description
+
+      const response = await axios.post('http://localhost:5000/sales', {
+        name, email, phone, vehicleNumber, vehicleModel, vehicleCompany, description, status
       }, {
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
-  
+
       console.log("Sell request successful:", response.data);
       alert(response.data.message);
     } catch (error) {
       console.error("Sell request error:", error.response?.data || error.message);
-      alert(error.response?.data?.error || "An error occurred while selling");
+      if (error.response) {
+        console.error("Error data:", error.response.data);
+        console.error("Error status:", error.response.status);
+        console.error("Error headers:", error.response.headers);
+        alert(error.response.data.error || "An error occurred while selling");
+      } else if (error.request) {
+        console.error("Error request:", error.request);
+        alert("Network error: No response received from server");
+      } else {
+        console.error("Error message:", error.message);
+        alert("An error occurred: " + error.message);
+      }
     }
   };
 

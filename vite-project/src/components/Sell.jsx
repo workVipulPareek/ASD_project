@@ -52,7 +52,7 @@ const Sell = () => {
         return;
       }
 
-      const response = await axios.post('http://localhost:5000/sales', {
+      const response = await axios.post('http://localhost:4000/sales', {
         name, email, phone, vehicleNumber, vehicleModel, vehicleCompany, description, status
       }, {
         headers: {

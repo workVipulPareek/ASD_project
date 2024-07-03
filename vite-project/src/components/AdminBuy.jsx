@@ -12,7 +12,7 @@ const AdminBuy = () => {
     if (!isAdmin()) {
       navigate('/Home');  // Redirect non-admin users to home
     } else {
-      axios.get('http://localhost:5000/cars')
+      axios.get('http://localhost:4000/cars')
         .then(response => {
           if (Array.isArray(response.data)) {
             setCars(response.data);

@@ -3,7 +3,7 @@ import {useNavigate } from 'react-router-dom';
 import { Link as RouterLink } from 'react-router-dom';
 import { ChakraProvider, Flex, Box, Heading, FormControl, FormLabel, Input, Button, Center } from '@chakra-ui/react';
 import axios from 'axios';
-import AdminUser from './AdminUser'
+
 function AdminLogin() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -14,7 +14,7 @@ function AdminLogin() {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log("Submitting:", { email, password , roles}); // Log for debugging
-        axios.post('http://localhost:5000/AdminLogin', { email, password , roles})
+        axios.post('http://localhost:4000/AdminLogin', { email, password , roles})
             .then(response => {
                 const { token , roles} = response.data;
                 localStorage.setItem('token', token);
@@ -57,7 +57,7 @@ function AdminLogin() {
                                         onChange={(e) => setPassword(e.target.value)}
                                     />
                                 </FormControl>
-                                <Button type="submit" colorScheme="teal" variant="solid" width="full" mt={8}>Sign In</Button>
+                                <Button type="submit" colorScheme="teal" variant="solid" width="full" mt={8}>Login In</Button>
                                 <Button colorScheme="red" variant="solid" width="full" mt={4}>
                                     Sign In with Google
                                 </Button>

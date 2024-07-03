@@ -15,7 +15,7 @@ const AdminRegister = () => {
         e.preventDefault();
         console.log("Submitting:", { email, password , roles});
 
-        axios.post('http://localhost:5000/AdminRegister', { email, password , roles})
+        axios.post('http://localhost:4000/AdminRegister', { email, password , roles})
             .then(response => {
                 console.log("Admin Registration successful:", response.data);
                 alert(response.data.message);

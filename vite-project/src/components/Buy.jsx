@@ -20,7 +20,7 @@ const Buy = () => {
 
   // Fetch car data from backend on component mount
   useEffect(() => {
-    axios.get('http://localhost:5000/cars')
+    axios.get('http://localhost:4000/cars')
       .then(response => {
         setCars(response.data);
       })
@@ -31,7 +31,7 @@ const Buy = () => {
 
   // Handle buying a car
   const handleBuy = (id) => {
-    axios.post(`http://localhost:5000/buy/${id}`)
+    axios.post(`http://localhost:4000/buy/${id}`)
       .then(response => {
         alert(response.data.message);
         // Update car quantity locally after successful purchase

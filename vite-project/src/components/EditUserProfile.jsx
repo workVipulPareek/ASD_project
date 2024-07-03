@@ -8,6 +8,23 @@ const EditUserProfile = () => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
+    useEffect(() => {
+        const fetchUserData = async () => {
+            const token = localStorage.getItem('token');
+            try {
+                const response = await axios.get('http://localhost:4000/UserProfile', {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                setUser(response.data);
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+            }
+        };
+
+        fetchUserData();
+    }, []);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -18,18 +35,16 @@ const EditUserProfile = () => {
         e.preventDefault();
         setLoading(true);
         const token = localStorage.getItem('token');
-        const formData = new FormData();
-        formData.append('name', user.name);
-        formData.append('phone', user.phone);
-        formData.append('address', user.address);
 
         try {
-            await axios.post('http://localhost:5000/EditUserProfile', formData, {
+            console.log('Submitting user data:', user);
+            await axios.post('http://localhost:4000/EditUserProfile', user, {
                 headers: {
-                    'Content-Type': 'multipart/form-data',
+                    'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`,
                 },
             });
+            console.log('User profile updated successfully');
             navigate('/UserProfile'); // Navigate back to user profile after successful update
         } catch (error) {
             console.error('Error updating user profile:', error);

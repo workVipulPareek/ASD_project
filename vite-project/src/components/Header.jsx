@@ -26,7 +26,7 @@ const Header = () => {
     localStorage.removeItem('roles'); // Clear roles from localStorage
     localStorage.removeItem('token'); // Clear roles from localStorage
 
-    axios.get('http://localhost:5000/Logout')
+    axios.get('http://localhost:4000/Logout')
       .then(response => {
         navigate('/Home');
       })
@@ -55,25 +55,27 @@ const Header = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
             <Nav>
-              {admin ? 
-              <>
+              {admin ?
+                <>
                   <Nav.Link href="/AdminUser" className="fs-3"> Users </Nav.Link>
                   <Nav.Link href="/AdminSell" className="fs-3"> SellRequests </Nav.Link>
                   <Nav.Link href="/AdminBuy" className="fs-3"> Inventory </Nav.Link>
                   <Nav.Link href="/AdminServices" className="fs-3"> ServiceRequests </Nav.Link>
-              </>
-               : (
-                <>
-                  <Nav.Link href="/Home" className="fs-3">Home</Nav.Link>
-                  <Nav.Link href="/Buy" className="fs-3">Buy</Nav.Link>
-                  <Nav.Link href="/Sell" className="fs-3">Sell</Nav.Link>
-                  <Nav.Link href="/Services" className="fs-3">Services</Nav.Link>
-                  <Nav.Link href="/AboutUs" className="fs-3">About Us</Nav.Link>
                 </>
-              )}
-            </Nav>
-            <Nav>
-              {authenticated && <Nav.Link href="/UserProfile" className="fs-3">Profile</Nav.Link>}
+                : (
+                  <>
+                    <Nav.Link href="/Home" className="fs-3">Home</Nav.Link>
+                    <Nav.Link href="/Buy" className="fs-3">Buy</Nav.Link>
+                    <Nav.Link href="/Sell" className="fs-3">Sell</Nav.Link>
+                    <Nav.Link href="/Services" className="fs-3">Services</Nav.Link>
+                    {authenticated ? (
+                      <Nav.Link href="/UserProfile" className="fs-3">Profile</Nav.Link>
+                    ) : (
+
+                      <Nav.Link href="/AboutUs" className="fs-3">AboutUs</Nav.Link>
+                    )}
+                  </>
+                )}
             </Nav>
             {authenticated ? (
               <Button onClick={handleLogout} colorScheme="red" variant='solid' size='lg' m={5} p={5}>Logout</Button>

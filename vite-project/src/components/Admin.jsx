@@ -16,7 +16,6 @@ const Admin = ({ showHeader = false }) => {
 
   const handleLogout = () => {
     logout();
-    // Redirect or handle logout logic as needed
   };
 
   return (
@@ -75,7 +74,7 @@ const UserInfo = () => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:5000/users')
+    axios.get('http://localhost:4000/users')
       .then(response => {
         if (Array.isArray(response.data)) {
           setUsers(response.data);
@@ -89,7 +88,7 @@ const UserInfo = () => {
   }, []);
 
   const deleteUser = (id) => {
-    axios.delete(`http://localhost:5000/users/${email}`)
+    axios.delete(`http://localhost:4000/users/${email}`)
       .then(response => {
         setUsers(users.filter(user => user.email !== email));
       })
@@ -125,7 +124,7 @@ const ServiceRequest = () => {
   const [requests, setRequests] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:5000/services')
+    axios.get('http://localhost:4000/services')
       .then(response => {
         if (Array.isArray(response.data)) {
           setRequests(response.data);
@@ -139,7 +138,7 @@ const ServiceRequest = () => {
   }, []);
 
   const deleteRequest = (id) => {
-    axios.delete(`http://localhost:5000/Services/${email}`)
+    axios.delete(`http://localhost:4000/Services/${email}`)
       .then(response => {
         setRequests(requests.filter(request => request.email !== email));
       })
@@ -196,7 +195,7 @@ const SellInfo = () => {
   const [sales, setSales] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:5000/sales')
+    axios.get('http://localhost:4000/sales')
       .then(response => {
         if (Array.isArray(response.data)) {
           setSales(response.data);
@@ -278,7 +277,7 @@ const SellInfo = () => {
   const [buyers, setBuyers] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:5000/buyers')
+    axios.get('http://localhost:4000/buyers')
       .then(response => {
         if (Array.isArray(response.data)) {
           setBuyers(response.data);

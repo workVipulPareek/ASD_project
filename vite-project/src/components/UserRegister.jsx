@@ -8,13 +8,17 @@ import axios from 'axios';
 const Register = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [name, setName] = useState('');
+    const [phone, setPhone] = useState('');
+    const [address, setAddress] = useState('');
+
     const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log("Submitting:", { email, password });
 
-        axios.post('http://localhost:5000/Register', { email, password })
+        axios.post('http://localhost:4000/Register', { name, email, password,  phone, address})
             .then(response => {
                 console.log("Registration successful:", response.data);
                 alert(response.data.message);
@@ -55,10 +59,36 @@ const Register = () => {
                                         onChange={(e) => setPassword(e.target.value)}
                                     />
                                 </FormControl>
+                                <FormControl isRequired>
+                                    <FormLabel mt={4} ml={1}>Name</FormLabel>
+                                    <Input
+                                        type="text"
+                                        placeholder="Enter your Name"
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)}
+                                    />
+                                </FormControl>
+                                <FormControl isRequired>
+                                    <FormLabel mt={4} ml={1}>Phone</FormLabel>
+                                    <Input
+                                        type="text"
+                                        placeholder="Enter your Phone Number"
+                                        value={phone}
+                                        onChange={(e) => setPhone(e.target.value)}
+                                    />
+                                </FormControl>
+                                <FormControl isRequired>
+                                    <FormLabel mt={4} ml={1}>Address</FormLabel>
+                                    <Input
+                                        type="text"
+                                        placeholder="Enter your Address"
+                                        value={address}
+                                        onChange={(e) => setAddress(e.target.value)}
+                                    />
+                                </FormControl>
                                 <Button type="submit" colorScheme="teal" variant="solid" width="full" mt={8}>Register</Button>
-                                <Center mt={4}>
-                                    <Button colorScheme="teal" as={RouterLink} to="/Login" variant="link">Already have an account? Login</Button>
-                                </Center>
+                                <Button as={RouterLink} to="/Home" colorScheme="red" variant="solid" width="full" mt={4}>Back</Button>
+
                             </form>
                         </Box>
                     </Box>

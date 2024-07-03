@@ -12,13 +12,12 @@ function UserLogin() {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log("Submitting:", { email, password }); // Log for debugging
-        axios.post('http://localhost:5000/UserLogin', { email, password })
+        axios.post('http://localhost:4000/UserLogin', { email, password })
             .then(response => {
                 const { token } = response.data;
                 localStorage.setItem('token', token);
                 console.log("Login successful:", response.data);
                 alert(response.data.message);
-                //refresh the page
                 navigate('/Home');
                 window.location.reload();
             })

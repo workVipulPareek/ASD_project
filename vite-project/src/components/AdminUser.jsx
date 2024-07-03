@@ -23,7 +23,7 @@ function UserInfo() {
     if (!isLoggedIn() || !isAdmin()) {
       navigate('/Home'); // Redirect to home or another page if not an admin
     } else {
-      axios.get('http://localhost:5000/users')
+      axios.get('http://localhost:4000/users')
         .then(response => {
           if (Array.isArray(response.data)) {
             setUsers(response.data);
@@ -52,7 +52,7 @@ function UserInfo() {
   }, [navigate, toast]);
 
   const deleteUser = (email) => {
-    axios.delete(`http://localhost:5000/users/${email}`)
+    axios.delete(`http://localhost:4000/users/${email}`)
       .then(response => {
         setUsers(users.filter(user => user.email !== email));
         toast({

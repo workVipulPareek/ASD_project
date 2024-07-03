@@ -13,7 +13,7 @@ const ServiceRequest = () => {
     if (!isAdmin()) {
       navigate('/Home');
     } else {
-      axios.get('http://localhost:5000/services')
+      axios.get('http://localhost:4000/services')
         .then(response => {
           if (Array.isArray(response.data)) {
             setRequests(response.data);
@@ -28,7 +28,7 @@ const ServiceRequest = () => {
   }, [navigate]);
 
   const deleteRequest = (id) => {
-    axios.delete(`http://localhost:5000/services/${id}`)
+    axios.delete(`http://localhost:4000/services/${id}`)
       .then(response => {
         setRequests(requests.filter(request => request._id !== id));
       })

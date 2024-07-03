@@ -13,7 +13,7 @@ const SellInfo = () => {
     if (!isAdmin()) {
       navigate('/Home');
     } else {
-      axios.get('http://localhost:5000/sales')
+      axios.get('http://localhost:4000/sales')
         .then(response => {
           if (Array.isArray(response.data)) {
             setSales(response.data);

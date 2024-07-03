@@ -8,8 +8,9 @@ import AuthContext from './Auth/AuthContext.js'; // Adjust path as per your file
 import SellData from './models/sellData.js';
 import ServiceData from './models/ServiceData.js';
 import Car from './models/buy.js';
+
 const app = express();
-const port = 5000;
+const port = 4000;
 const SECRET_KEY = 'secretkey';
 
 app.use(cors());
@@ -30,7 +31,7 @@ mongoose.connect('mongodb://localhost:27017/carsDB', {
 
 // Register a user
 app.post('/Register', async (req, res) => {
-  const { email, password } = req.body;
+  const { name, email, password, phone, address } = req.body;
 
   try {
     const existingUser = await User.findOne({ email });
@@ -40,7 +41,7 @@ app.post('/Register', async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const newUser = await User.create({ email, password: hashedPassword });
+    const newUser = await User.create({ name, email, password: hashedPassword,  phone, address });
 
     const token = jwt.sign({ email: newUser.email, id: newUser._id }, SECRET_KEY);
     res.status(201).json({ user: newUser, token, message: 'User registered successfully' });
@@ -302,12 +303,14 @@ mongoose.connect('mongodb://localhost:27017/carsDB', { useNewUrlParser: true, us
       res.status(500).send(err);
     }
   });
+
   app.get('/userProfile', AuthContext, async (req, res) => {
     try {
       console.log('User ID:', req.user); // Debug: Log the user ID extracted from token
   
-      // Fetch user profile using req.user._id
-      const user = await User.findOne({} , 'email');
+      // Assuming req.user contains the user's ID
+      const user = await User.findOne({ email: req.user.email });
+  
       if (!user) {
         return res.status(404).json({ message: 'User not found' });
       }
@@ -323,17 +326,26 @@ mongoose.connect('mongodb://localhost:27017/carsDB', { useNewUrlParser: true, us
   app.post('/EditUserProfile', AuthContext, async (req, res) => {
     try {
       const { name, phone, address } = req.body;
-      const email = req.user.email;
-      // Find and update the user
+      const email = req.user.email; // Assuming req.user.email contains the authenticated user's email
+  
       const update = { name, phone, address };
-      const user = await User.findOneAndUpdate({ email }, update, { new: true });
+      const options = { new: true }; // Return the updated document
+  
+      // Update the user document
+      const user = await User.findOneAndUpdate({ email }, update, options);
+  
       if (!user) {
         return res.status(404).json({ message: 'User not found' });
       }
   
+      // Logging for debugging
+      console.log('Updated user:', user);
+  
+      // Send the updated user object as response
       res.json(user);
     } catch (error) {
       console.error('Error updating user profile:', error);
       res.status(500).json({ message: 'Server error' });
     }
   });
+  

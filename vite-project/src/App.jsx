@@ -55,8 +55,8 @@ const App = () => {
           <Route path='/AdminServices' element={<AdminServices />} />
           <Route path='/AdminBuy' element={<AdminBuy />} />
           <Route path='/admin' element={<Admin />} /> 
-          <Route path='/userprofile' element={<UserProfile />} /> 
-          <Route path='/usereditprofile' element={<EditUserProfile />} /> 
+          <Route path='/UserProfile' element={<UserProfile />} /> 
+          <Route path='/EditUserProfile' element={<EditUserProfile />} /> 
           {/* Render Admin routes */}
         </Routes>
         <Footer />

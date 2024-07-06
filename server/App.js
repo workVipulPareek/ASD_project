@@ -19,7 +19,7 @@ app.use(express.json());
 // Middleware to log requests
 app.use((req, res, next) => {
   console.log('Request received:', req.method, req.url);
-  next();
+  next(); 
 });
 
 // Connect to MongoDB
@@ -174,8 +174,56 @@ app.post('/services', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
-// Delete user endpoint
-// Delete user endpoint
+
+
+// Route to update the status of a service request
+app.put('/updateServiceRequestStatus/:id', AuthContext, async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  try {
+      const updatedRequest = await ServiceData.findByIdAndUpdate(id, { status }, { new: true });
+      res.json(updatedRequest);
+  } catch (error) {
+      res.status(500).json({ error: 'Error updating request status' });
+  }
+});
+
+//Endpoint to fetch the sevice request
+app.get('/userServiceRequests', AuthContext, async (req, res) => {
+  try {
+      const userRequests = await ServiceData.find({ email: req.user.email });
+      res.json(userRequests);
+  } catch (error) {
+      res.status(500).json({ error: 'Error fetching user service requests' });
+  }
+});
+
+
+// Route to update the status of a service request
+app.put('/updateServiceRequestStatus/:id', AuthContext, async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  try {
+      const updatedRequest = await ServiceData.findByIdAndUpdate(id, { status }, { new: true });
+      res.json(updatedRequest);
+  } catch (error) {
+      res.status(500).json({ error: 'Error updating request status' });
+  }
+});
+
+//Endpoint to fetch the  Resell request
+app.get('/userSellRequests', AuthContext, async (req, res) => {
+  try {
+      const userRequests = await SellData.find({ email: req.user.email });
+      res.json(userRequests);
+  } catch (error) {
+      res.status(500).json({ error: 'Error fetching user service requests' });
+  }
+});
+
+
 // Delete user endpoint
 app.delete('/users/:email', async (req, res) => {
   const { email } = req.params;

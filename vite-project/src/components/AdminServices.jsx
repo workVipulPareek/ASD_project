@@ -27,6 +27,21 @@ const ServiceRequest = () => {
     }
   }, [navigate]);
 
+  const updateRequestStatus = (id, status) => {
+    const token = localStorage.getItem('token');
+    axios.put(`http://localhost:4000/updateServiceRequestStatus/${id}`, { status }, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then(response => {
+      setRequests(requests.map(request => request._id === id ? { ...request, status: response.data.status } : request));
+    })
+    .catch(error => {
+      console.log('Error updating request status:', error);
+    });
+  };
+
   const deleteRequest = (id) => {
     axios.delete(`http://localhost:4000/services/${id}`)
       .then(response => {
@@ -35,10 +50,6 @@ const ServiceRequest = () => {
       .catch(error => {
         console.log('Error deleting request:', error);
       });
-  };
-
-  const forwardRequest = (id) => {
-    alert(`Service request ${id} forwarded.`);
   };
 
   const pendingRequests = requests.filter(request => request.status === 'Pending').length;
@@ -103,7 +114,8 @@ const ServiceRequest = () => {
                   <Text fontSize="lg"><strong>Status:</strong> {request.status}</Text>
                 </Box>
                 <Box>
-                  <Button colorScheme="blue" mr={2} onClick={() => forwardRequest(request._id)}>Forward</Button>
+                  <Button colorScheme="green" mr={2} onClick={() => updateRequestStatus(request._id, 'accepted')}>Accept</Button>
+                  <Button colorScheme="red" mr={2} onClick={() => updateRequestStatus(request._id, 'rejected')}>Reject</Button>
                   <Button colorScheme="red" onClick={() => deleteRequest(request._id)}>Delete</Button>
                 </Box>
               </Flex>

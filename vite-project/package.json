@@ -4,15 +4,15 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    
-    "start": "concurrently \"npm run server\" \"npm run client\"",
-    "server": "nodemon server/app.js",
-    "client": "vite",
-    "dev": "vite",
-    "build": "vite build",
-    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
-  },
+  "start": "concurrently \"npm run backend\" \"npm run client\"",
+  "backend": "nodemon ../server/App.js",
+  "client": "vite",
+  "dev": "vite",
+  "build": "vite build",
+  "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+  "preview": "vite preview"
+},
+
   "dependencies": {
     "@babel/cli": "^7.24.7",
     "@babel/core": "^7.24.7",

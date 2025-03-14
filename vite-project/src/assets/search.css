@@ -1,0 +1,124 @@
+.search-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Filters */
+.filter-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.filter {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 200px;
+    font-size: 14px;
+}
+
+/* Search Button */
+.search-btn-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.search-btn {
+    padding: 12px 20px;
+    font-size: 16px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.car-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* Car Box */
+.car-box {
+    display: flex;
+    width: 80%;
+    height: 260px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Image Section */
+.car-image {
+    width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f9f9f9;
+}
+
+.car-image img {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+}
+
+/* Car Details */
+.car-info {
+    font-size: 14px;
+
+    width: 35%;
+    padding: 10px;
+}
+
+/* Car Name */
+.car-name {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Buttons */
+.buy-btn, .cart-btn {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+/* Title Styling */
+.title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.buy-btn { background-color: #28a745; color: white; }
+.cart-btn { background-color: #ff9800; color: white; }
+
+/* Reset Button */
+.reset-btn {
+    padding: 12px 20px;
+    font-size: 16px;
+    border: none;
+    background-color: #dc3545;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-left: 10px;
+}
+
+.reset-btn:hover {
+    background-color: #c82333;
+}

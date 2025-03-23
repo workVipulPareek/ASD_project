@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Box, Text, List, ListItem, Heading, ChakraProvider, VStack, HStack, Button, Center } from '@chakra-ui/react';
-import theme from './themes';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import '../assets/profile.css';
 
 const UserProfile = () => {
     const [user, setUser] = useState(null);
@@ -15,22 +14,24 @@ const UserProfile = () => {
         const fetchUserProfile = async () => {
             try {
                 const response = await axios.get('http://localhost:4000/userProfile', {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
+                    headers: { Authorization: `Bearer ${token}` },
                 });
                 setUser(response.data);
+
+                // ✅ Extract email and use it to fetch requests
+                if (response.data.email) {
+                    fetchUserRequests(response.data.email);
+                    fetchResellRequests(response.data.email);
+                }
             } catch (error) {
                 console.error('Error fetching user profile:', error);
             }
         };
 
-        const fetchUserRequests = async () => {
+        const fetchUserRequests = async (email) => {
             try {
-                const request = await axios.get('http://localhost:4000/userServiceRequests', {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
+                const request = await axios.get(`http://localhost:4000/userServiceRequests?email=${email}`, {
+                    headers: { Authorization: `Bearer ${token}` },
                 });
                 setUserRequests(request.data);
             } catch (error) {
@@ -38,12 +39,10 @@ const UserProfile = () => {
             }
         };
 
-        const fetchResellRequests = async () => {
+        const fetchResellRequests = async (email) => {
             try {
-                const request = await axios.get('http://localhost:4000/userSellRequests', {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
+                const request = await axios.get(`http://localhost:4000/userSellRequests?email=${email}`, {
+                    headers: { Authorization: `Bearer ${token}` },
                 });
                 setUserResellData(request.data);
             } catch (error) {
@@ -53,93 +52,85 @@ const UserProfile = () => {
 
         if (token) {
             fetchUserProfile();
-            fetchUserRequests();
-            fetchResellRequests();
         }
     }, []);
 
     if (!user) {
-        return <div>Loading...</div>;
+        return <div className="loading-container">Loading...</div>;
     }
 
     return (
-        <ChakraProvider theme={theme}>
-            <div className='main-body'>
-                <Heading size="3xl" mb={4} variant="footer" textAlign="center" color="teal" mt={8}>
-                    User Profile
-                </Heading>
-                <Box p={8} bg='#CBD5E0' borderWidth={1} borderRadius={8} boxShadow="lg" maxWidth="800px" mx="auto">
-
-                    <VStack alignItems="flex-start">
-                        <HStack>
-                            <Heading size="md" color="teal">Name:</Heading>
-                            <Text fontSize="lg" color="gray.10" fontWeight="bold">{user.name}</Text>
-                        </HStack>
-                        <HStack>
-                            <Heading size="md" color="teal">Email:</Heading>
-                            <Text fontSize="lg" color="gray.10" fontWeight="bold">{user.email}</Text>
-                        </HStack>
-                        <HStack>
-                            <Heading size="md" color="teal">Phone:</Heading>
-                            <Text fontSize="lg" color="gray.10" fontWeight="bold">{user.phone}</Text>
-                        </HStack>
-                        <HStack>
-                            <Heading size="md" color="teal">Address:</Heading>
-                            <Text fontSize="lg" color="gray.10" fontWeight="bold">{user.address}</Text>
-                        </HStack>
-                    </VStack>
-                    <Center>
-                        <Button as={RouterLink} to="/EditUserProfile" colorScheme="teal" variant="solid" mt={8}>
-                            Edit Profile
-                        </Button>
-                    </Center>
-                </Box>
-                <br />
-                <hr>
-                </hr>
-                <br />
-                <Box mt={8}>
-                    <Heading size="2xl" mb={4} variant="footer" textAlign="center" color="teal">
-                        Know the status of your Service Request
-                    </Heading>
-                    <Box p={8} bg='#CBD5E0' borderWidth={1} borderRadius={8} boxShadow="lg" maxWidth="800px" mx="auto">
-                        <List spacing={5}>
-                            {userRequests.map((request) => (
-                                <ListItem key={request._id}>
-                                    {/* <Box p={4} boxShadow="md" borderRadius="md" bg="white"> */}
-                                    <Text><strong>Name:</strong>{request.name}</Text>
-                                    <Text><strong>Service:</strong> {request.serviceType}</Text>
-                                    <Text><strong>Status:</strong> {request.status}</Text>
-                                    {/* </Box> */}
-                                </ListItem>
-                            ))}
-                        </List>
-                    </Box>
-                </Box>
-                <br />
-                <hr>
-                </hr>
-                <br />
-                <Box mt={8}>
-                    <Heading size="2xl" mb={4} variant="footer" textAlign="center" color="teal">
-                        Know the status of your Resell Request
-                    </Heading>
-                    <Box p={8} bg='#CBD5E0' borderWidth={1} borderRadius={8} boxShadow="lg" maxWidth="800px" mx="auto">
-                        <List spacing={5}>
-                            {userResellData.map((request) => (
-                                <ListItem key={request._id}>
-                                    {/* <Box p={4} boxShadow="md" borderRadius="md" bg="white"> */}
-                                    <Text><strong>Name:</strong>{request.name}</Text>
-                                    <Text><strong>Service:</strong> {request.serviceType}</Text>
-                                    <Text><strong>Status:</strong> {request.status}</Text>
-                                    {/* </Box> */}
-                                </ListItem>
-                            ))}
-                        </List>
-                    </Box>
-                </Box>
+        <div className="profile-container">
+            <h1 className="profile-title">User Profile</h1>
+            
+            <div className="profile-card">
+                <div className="profile-info">
+                    <div className="info-row">
+                        <h3 className="info-label">Name:</h3>
+                        <p className="info-value">{user.name}</p>
+                    </div>
+                    <div className="info-row">
+                        <h3 className="info-label">Email:</h3>
+                        <p className="info-value">{user.email}</p>
+                    </div>
+                    <div className="info-row">
+                        <h3 className="info-label">Phone:</h3>
+                        <p className="info-value">{user.phone}</p>
+                    </div>
+                    <div className="info-row">
+                        <h3 className="info-label">Address:</h3>
+                        <p className="info-value">{user.address}</p>
+                    </div>
+                </div>
+                <div className="edit-button-container">
+                    <Link to="/EditUserProfile" className="edit-button">
+                        Edit Profile
+                    </Link>
+                </div>
             </div>
-        </ChakraProvider>
+            
+            <div className="section-divider"></div>
+            
+            <div className="requests-section">
+                <h2 className="section-title">Know the status of your Service Request</h2>
+                <div className="requests-card">
+                    <ul className="requests-list">
+                        {userRequests.length > 0 ? (
+                            userRequests.map((request) => (
+                                <li key={request._id} className="request-item">
+                                    <p><span className="field-label">Name:</span> {request.name}</p>
+                                    <p><span className="field-label">Service:</span> {request.serviceType}</p>
+                                    <p><span className="field-label">Status:</span> <span className={`status-badge status-${request.status.toLowerCase()}`}>{request.status}</span></p>
+                                </li>
+                            ))
+                        ) : (
+                            <li className="no-requests">No service requests found</li>
+                        )}
+                    </ul>
+                </div>
+            </div>
+            
+            <div className="section-divider"></div>
+            
+            <div className="requests-section">
+                <h2 className="section-title">Know the status of your Resell Request</h2>
+                <div className="requests-card">
+                    <ul className="requests-list">
+                        {userResellData.length > 0 ? (
+                            userResellData.map((request) => (
+                                <li key={request._id} className="request-item">
+                                    <p><span className="field-label">Name:</span> {request.name}</p>
+                                    <p><span className="field-label">Service:</span> {request.serviceType}</p>
+                                    <p><span className="field-label">Status:</span> <span className={`status-badge status-${request.status.toLowerCase()}`}>{request.status}</span></p>
+                                </li>
+                            ))
+                        ) : (
+                            <li className="no-requests">No resell requests found</li>
+                        )}
+                    </ul>
+                </div>
+            </div>
+        </div>
     );
 }
 

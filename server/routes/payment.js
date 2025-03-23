@@ -1,6 +1,6 @@
 import express from "express";
 import AuthContext from "../Auth/AuthContext.js";  // ✅ Use AuthContext as middleware
-import Car from "../models/buy.js";
+import Search from "../models/search.js";
 
 const router = express.Router();
 
@@ -15,7 +15,7 @@ router.post("/process", AuthContext, async (req, res) => {
     }
 
     // ✅ Find car by name
-    const car = await Car.findOne({ name: carName });
+    const car = await Search.findOne({ name: carName });
 
     if (!car) {
       return res.status(404).json({ error: "Car not found" });

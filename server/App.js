@@ -8,11 +8,13 @@ import { User, Admin } from './models/model.js';
 import AuthContext from './Auth/AuthContext.js';
 import SellData from './models/sellData.js';
 import ServiceData from './models/ServiceData.js';
-import Car from './models/buy.js';
+//import Car from './models/buy.js';
 import Search from './models/search.js';
 import authRoutes from "./Auth/AuthRoutes.js";
 import carRoutes from "./routes/cars.js";
 import paymentRoutes from "./routes/payment.js";
+import UserSell from './models/used_cars.js';
+
 
 dotenv.config();
 
@@ -198,22 +200,37 @@ app.put('/updateServiceRequestStatus/:id', AuthContext, async (req, res) => {
   const { status } = req.body;
 
   try {
-    const updatedRequest = await ServiceData.findByIdAndUpdate(id, { status }, { new: true });
+    const updatedRequest = await ServiceData.findByIdAndUpdate(
+      id, 
+      { status }, 
+      { new: true }
+    );
     res.json(updatedRequest);
   } catch (error) {
     res.status(500).json({ error: 'Error updating request status' });
   }
 });
 
-// Endpoint to fetch the service request
-app.get('/userServiceRequests', AuthContext, async (req, res) => {
+// Fetch all service requests for admin
+app.get('/services', AuthContext, async (req, res) => {
   try {
-    const userRequests = await ServiceData.find({ email: req.user.email });
-    res.json(userRequests);
+    const requests = await ServiceData.find({});
+    res.json(requests);
   } catch (error) {
-    res.status(500).json({ error: 'Error fetching user service requests' });
+    res.status(500).json({ error: 'Error fetching service requests' });
   }
 });
+
+// Delete service request
+app.delete('/services/:id', AuthContext, async (req, res) => {
+  try {
+    await ServiceData.findByIdAndDelete(req.params.id);
+    res.json({ message: 'Request deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ error: 'Error deleting request' });
+  }
+});
+
 
 // Endpoint to fetch the Resell request
 app.get('/userSellRequests', AuthContext, async (req, res) => {
@@ -245,7 +262,7 @@ app.delete('/users/:email', async (req, res) => {
 });
 
 // Get all sales data
-app.get('/sales', async (req, res) => {
+/*app.get('/sales', async (req, res) => {
   try {
     const salesData = await SellData.find();
     res.status(200).json(salesData);
@@ -254,6 +271,7 @@ app.get('/sales', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+*/
 
 // Get all service data
 app.get('/services', async (req, res) => {
@@ -276,6 +294,90 @@ app.get('/users', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+/*const cars = [
+  { image: "rollsroyce", name: "Rolls-Royce Phantom:", description: "Epitome of luxury and refinement with bespoke craftsmanship.", quantity: 5 },
+  { image: "bentley", name: "Bentley Continental GT:", description: "Powerful grand tourer blending opulence with dynamic performance.", quantity: 3 },
+  { image: "mercedes", name: "Mercedes-Maybach S-Class:", description: "Ultimate in chauffeur-driven luxury and cutting-edge technology.", quantity: 4 },
+  { image: "bmw", name: "BMW 7 Series:", description: "Executive sedan known for its comfort, innovation, and driving dynamics.", quantity: 6 },
+  { image: "audi", name: "Audi A8 L:", description: "Flagship sedan offering exceptional comfort, style, and advanced driver assistance systems.", quantity: 2 },
+  { image: "defender", name: "Defender", description: "The Defender is a rugged, off-road capable SUV produced by Land Rover.", quantity: 7 },
+  { image: "lexus", name: "Lexus LS 500h:", description: "Japanese luxury hybrid sedan renowned for its comfort and reliability.", quantity: 3 },
+  { image: "volvo", name: "Volvo XC90 Excellence:", description: "Premium SUV offering Scandinavian luxury and advanced safety features.", quantity: 4 },
+  { image: "maserati", name: "Maserati Quattroporte:", description: "Italian luxury sedan with a blend of sportiness and refined elegance.", quantity: 5 },
+];
+*/
+/*mongoose.connect('mongodb://localhost:27017/vijay', { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => {
+    console.log('MongoDB connected...');
+    return Car.insertMany(cars);
+  })
+  .then(() => {
+    console.log('Car data inserted');
+  })
+*/
+
+
+  app.get('/admin_cars', async (req, res) => {
+    try {
+        const cars = await Search.find();
+        res.json(cars);
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching cars', error });
+    }
+});
+
+// ✅ Update car details
+app.put('/update_car/:id', async (req, res) => {
+    const { id } = req.params;
+    const updatedData = req.body;
+
+    try {
+        const updatedCar = await Search.findByIdAndUpdate(id, updatedData, { new: true });
+        if (!updatedCar) return res.status(404).json({ message: 'Car not found' });
+        res.json(updatedCar);
+    } catch (error) {
+        res.status(500).json({ message: 'Error updating car details', error });
+    }
+});
+
+// ✅ Add a new car
+app.post('/add_car', async (req, res) => {
+    try {
+        const newCar = new Search(req.body);
+        await newCar.save();
+        res.json({ message: 'Car added successfully', car: newCar });
+    } catch (error) {
+        res.status(500).json({ message: 'Error adding car', error });
+    }
+});
+  
+  app.get('/buy_cars', async (req, res) => {
+    console.log('GET /cars endpoint hit');
+    try {
+      const cars = await Search.find();
+      console.log('Cars fetched:', cars);
+      res.json(cars);
+    } catch (err) {
+      console.error('Error fetching cars:', err);
+      res.status(500).send(err);
+    }
+  });
+  
+  
+  app.put('/buy/:id', async (req, res) => {
+    try {
+      const car = await Search.findById(req.params.id);
+      if (car.quantity > 0) {
+        car.quantity -= 1;
+        await car.save();
+        res.json({ message: 'Purchase successful' });
+      } else {
+        res.status(400).json({ message: 'Out of stock' });
+      }
+    } catch (err) {
+      res.status(500).send(err);
+    }
+  });
 
 // Delete service request endpoint
 app.delete('/services/:id', async (req, res) => {
@@ -374,3 +476,132 @@ app.get("/search", async (req, res) => {
 app.listen(port, () => {
   console.log(`🚀 Server running on port ${port}`);
 });
+
+app.put('/updateSaleStatus/:id', async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  try {
+    const updatedSale = await SellData.findByIdAndUpdate(
+      id,
+      { status },
+      { new: true }
+    );
+
+    if (!updatedSale) {
+      return res.status(404).json({ error: 'Sale request not found' });
+    }
+
+    res.json(updatedSale);
+  } catch (error) {
+    console.error('Error updating sale status:', error);
+    res.status(500).json({ error: 'Error updating sale status' });
+  }
+});
+
+// Delete Sale
+app.delete('/deleteSale/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const deletedSale = await SellData.findByIdAndDelete(id);
+
+    if (!deletedSale) {
+      return res.status(404).json({ error: 'Sale request not found' });
+    }
+
+    res.json({ message: 'Sale deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting sale:', error);
+    res.status(500).json({ error: 'Error deleting sale request' });
+  }
+});
+
+app.get('/sales', async (req, res) => {
+  try {
+    const sales = await SellData.find();
+    res.json(sales);
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching sales data' });
+  }
+});
+
+
+// ✅ Update sale status
+app.post('/usedcarsell', async (req, res) => {
+  try {
+      const newSale = new UserSell(req.body);
+      await newSale.save();
+      res.status(201).json(newSale);
+  } catch (error) {
+      res.status(500).json({ message: "Error adding sale", error });
+  }
+});
+
+
+app.put('/updateSaleStatus/:id', async (req, res) => {
+  try {
+      const { id } = req.params;
+      const { status } = req.body;
+
+      // 🔹 Update status in SellData
+      const updatedSale = await SellData.findByIdAndUpdate(id, { status }, { new: true });
+
+      if (!updatedSale) {
+          return res.status(404).json({ message: "Sale not found" });
+      }
+
+      res.status(200).json({ message: "Sale status updated successfully!", updatedSale });
+
+  } catch (error) {
+      console.error("❌ Error updating sale status:", error.message);
+      res.status(500).json({ message: "Error updating sale status", error: error.message });
+  }
+});
+
+app.get("/user-sell", async (req, res) => {
+  try {
+    const cars = await UserSell.find({ status: "Added" }); // Only fetch "added" cars
+    res.json(cars);
+  } catch (error) {
+    res.status(500).json({ error: "Error fetching cars" });
+  }
+});
+
+// Handle purchase
+app.put("/buy_old/:id", async (req, res) => {
+  try {
+    const car = await UserSell.findByIdAndUpdate(
+      req.params.id,
+      { status: "sold" },
+      { new: true }
+    );
+
+    if (!car) {
+      return res.status(404).json({ error: "Car not found" });
+    }
+
+    res.json({ message: "Car purchased successfully", car });
+  } catch (error) {
+    console.error("Error updating car status:", error);
+    res.status(500).json({ error: "Failed to update car status" });
+  }
+});
+
+
+// Check authentication (Mock API)
+app.get("/api/auth/check-auth", (req, res) => {
+  const token = req.headers.authorization?.split(" ")[1];
+  if (token === "valid_token") {
+    res.json({ loggedIn: true });
+  } else {
+    res.json({ loggedIn: false });
+  }
+});
+
+
+
+// ✅ Get user profile
+
+
+// ✅ Get user's service requests

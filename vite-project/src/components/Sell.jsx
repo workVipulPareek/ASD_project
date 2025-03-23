@@ -20,6 +20,7 @@ const Sell = () => {
   const [vehicleModel, setVehicleModel] = useState('');
   const [vehicleCompany, setVehicleCompany] = useState('');
   const [description, setDescription] = useState('');
+  const [image_url, seturl] = useState('');
   const [isValid, setIsValid] = useState(true);
   const [status] = useState('Pending');
   
@@ -36,14 +37,17 @@ const Sell = () => {
         Vehicle Company: ${vehicleCompany}
         Vehicle Model: ${vehicleModel}
         Vehicle Number: ${vehicleNumber}
-        Description: ${description}`);
+        Description: ${description}
+        ImageURL: ${image_url}
+        `)
+        ;
     } else {
       setIsValid(false);
       alert('Vehicle number format is invalid');
       return;
     }
 
-    console.log("Submitting:", { name, email, phone, vehicleNumber, vehicleModel, vehicleCompany, description });
+    console.log("Submitting:", { name, email, phone, vehicleNumber, vehicleModel, vehicleCompany, description , image_url });
 
     try {
       const token = localStorage.getItem('token');  // Retrieve the token from localStorage
@@ -53,7 +57,7 @@ const Sell = () => {
       }
 
       const response = await axios.post('http://localhost:4000/sales', {
-        name, email, phone, vehicleNumber, vehicleModel, vehicleCompany, description, status
+        name, email, phone, vehicleNumber, vehicleModel, vehicleCompany, description, status , image_url
       }, {
         headers: {
           Authorization: `Bearer ${token}`
@@ -191,6 +195,10 @@ const Sell = () => {
                 <FormControl>
                   <FormLabel mt={4} ml={1}>Description</FormLabel>
                   <Textarea placeholder="Enter your Description" value={description} onChange={(e) => setDescription(e.target.value)} />
+                </FormControl>
+                <FormControl>
+                  <FormLabel mt={4} ml={1}>ImageURL</FormLabel>
+                  <Textarea placeholder="Enter image url" value={image_url} onChange={(e) => seturl(e.target.value)} />
                 </FormControl>
                 <Center>
                   <Button mt={4} colorScheme="teal" type="submit">

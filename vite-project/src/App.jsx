@@ -26,6 +26,7 @@ import EditUserProfile from './components/EditUserProfile';
 import Payment from  './components/Payment';
 import OrderSuccess from './components/OrderSucess';
 import SearchPage from './components/search';
+import OldBuy from './components/oldbuy';
 
 import './App.css';
 
@@ -64,6 +65,7 @@ const App = () => {
           <Route path='/Payment' element={<Payment />} />
           <Route path='/OrderSuccess' element={<OrderSuccess />} />
           <Route path='/SearchPage' element={<SearchPage />} /> 
+          <Route path='/OldBuy' element={<OldBuy />} /> 
 
           {/* Render Admin routes */}
         </Routes>

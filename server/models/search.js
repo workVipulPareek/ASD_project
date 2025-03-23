@@ -16,7 +16,8 @@ const searchSchema = new mongoose.Schema({
   fuelTankCapacity: { type: String, required: true },
   batteryCapacity: { type: String, required: true },
   parkingAssistance: { type: String, required: true },
-  image: { type: String, required: true }
+  image: { type: String, required: true } , 
+  quantity: { type: Number, required: true }
 });
 
 // Create a model for the Search collection

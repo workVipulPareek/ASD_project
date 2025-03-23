@@ -9,100 +9,127 @@ const ServiceRequest = () => {
   const [requests, setRequests] = useState([]);
   const navigate = useNavigate();
 
+  // Redirect if user is not logged in
   useEffect(() => {
-    if (!isAdmin()) {
+    if (!isLoggedIn()) {
+      navigate('/LoginForm');
+    } else if (!isAdmin()) {
       navigate('/Home');
     } else {
-      axios.get('http://localhost:4000/services')
-        .then(response => {
-          if (Array.isArray(response.data)) {
-            setRequests(response.data);
-          } else {
-            console.error('Fetched data is not an array:', response.data);
-          }
-        })
-        .catch(error => {
-          console.log('Error fetching service requests:', error);
-        });
+      fetchRequests();
     }
   }, [navigate]);
 
-  const updateRequestStatus = (id, status) => {
-    const token = localStorage.getItem('token');
-    axios.put(`http://localhost:4000/updateServiceRequestStatus/${id}`, { status }, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then(response => {
-      setRequests(requests.map(request => request._id === id ? { ...request, status: response.data.status } : request));
-    })
-    .catch(error => {
-      console.log('Error updating request status:', error);
-    });
-  };
+  // Fetch service requests
+  const fetchRequests = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        console.error('No token found! Redirecting...');
+        navigate('/LoginForm');
+        return;
+      }
 
-  const deleteRequest = (id) => {
-    axios.delete(`http://localhost:4000/services/${id}`)
-      .then(response => {
-        setRequests(requests.filter(request => request._id !== id));
-      })
-      .catch(error => {
-        console.log('Error deleting request:', error);
+      const response = await axios.get('http://localhost:4000/services', {
+        headers: { Authorization: `Bearer ${token}` },
       });
+
+      if (Array.isArray(response.data)) {
+        setRequests(response.data);
+      } else {
+        console.error('Fetched data is not an array:', response.data);
+      }
+    } catch (error) {
+      console.error('Error fetching service requests:', error.response?.data || error.message);
+      if (error.response?.status === 401) {
+        navigate('/LoginForm'); // Redirect if unauthorized
+      }
+    }
   };
 
-  const pendingRequests = requests.filter(request => request.status === 'Pending').length;
-  const completedRequests = requests.filter(request => request.status === 'Completed').length;
+  // Update service request status
+  const updateRequestStatus = async (id, status) => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        console.error('No token found! Redirecting...');
+        navigate('/LoginForm');
+        return;
+      }
+
+      const response = await axios.put(
+        `http://localhost:4000/updateServiceRequestStatus/${id}`,
+        { status },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      setRequests(requests.map(request => 
+        request._id === id ? { ...request, status: response.data.status } : request
+      ));
+    } catch (error) {
+      console.error('Error updating request status:', error.response?.data || error.message);
+    }
+  };
+
+  // Delete service request
+  const deleteRequest = async (id) => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        console.error('No token found! Redirecting...');
+        navigate('/LoginForm');
+        return;
+      }
+
+      await axios.delete(`http://localhost:4000/services/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      setRequests(requests.filter(request => request._id !== id));
+    } catch (error) {
+      console.error('Error deleting request:', error.response?.data || error.message);
+    }
+  };
+
+  // Count requests by status
+  const pendingRequests = requests.filter(req => req.status === 'Pending').length;
+  const acceptedRequests = requests.filter(req => req.status === 'Accepted').length;
+  const completedRequests = requests.filter(req => req.status === 'Completed').length;
 
   const data = {
-    labels: ['Pending', 'Completed'],
+    labels: ['Pending', 'Accepted', 'Completed'],
     datasets: [
       {
         label: 'Service Requests',
-        data: [pendingRequests, completedRequests],
-        backgroundColor: ['#FF6384', '#36A2EB'],
-        borderColor: ['#FF6384', '#36A2EB'],
+        data: [pendingRequests, acceptedRequests, completedRequests],
+        backgroundColor: ['#FFA500', '#36A2EB', '#32CD32'],
+        borderColor: ['#FFA500', '#36A2EB', '#32CD32'],
         borderWidth: 1,
       }
     ]
   };
 
-  if (!isLoggedIn()) {
-    navigate('/LoginForm');
-    return null;
-  }
-
   return (
     <Box>
-      <Heading as="h2" size="lg" mb={4}>Services Request</Heading>
-      <div style={{ height: '150px', width: '100%' }}>
+      <Heading as="h2" size="lg" mb={4}>Service Requests</Heading>
+
+      {/* Bar Graph */}
+      <div style={{ height: '200px', width: '100%' }}>
         <Bar
           data={data}
           options={{
             responsive: true,
             maintainAspectRatio: false,
-            indexAxis: 'x', // Bar chart oriented horizontally
-            plugins: {
-              legend: {
-                display: false
-              }
-            },
+            plugins: { legend: { display: false } },
             scales: {
-              y: {
-                beginAtZero: true
-              },
-              x: {
-                barThickness: 'flex', // Adjust the bar thickness
-                maxBarThickness: 50,  // Maximum bar thickness
-                grid: {
-                  display: false
-                }
-              }
+              y: { beginAtZero: true },
+              x: { grid: { display: false } }
             }
           }}
         />
       </div>
+
+      {/* Service Requests List */}
       <List spacing={5} mt={5}>
         {requests.map((request) => (
           <ListItem key={request._id}>
@@ -114,8 +141,21 @@ const ServiceRequest = () => {
                   <Text fontSize="lg"><strong>Status:</strong> {request.status}</Text>
                 </Box>
                 <Box>
-                  <Button colorScheme="green" mr={2} onClick={() => updateRequestStatus(request._id, 'accepted')}>Accept</Button>
-                  <Button colorScheme="red" mr={2} onClick={() => updateRequestStatus(request._id, 'rejected')}>Reject</Button>
+                  {request.status === 'Pending' && (
+                    <>
+                      <Button colorScheme="green" mr={2} onClick={() => updateRequestStatus(request._id, 'Accepted')}>
+                        Accept
+                      </Button>
+                      <Button colorScheme="red" mr={2} onClick={() => updateRequestStatus(request._id, 'Rejected')}>
+                        Reject
+                      </Button>
+                    </>
+                  )}
+                  {request.status === 'Accepted' && (
+                    <Button colorScheme="blue" mr={2} onClick={() => updateRequestStatus(request._id, 'Completed')}>
+                      Mark as Completed
+                    </Button>
+                  )}
                   <Button colorScheme="red" onClick={() => deleteRequest(request._id)}>Delete</Button>
                 </Box>
               </Flex>

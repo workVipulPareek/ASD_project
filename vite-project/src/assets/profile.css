@@ -1,0 +1,329 @@
+/* UserProfile.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --primary-color: #008080;
+  --primary-light: #00a0a0;
+  --primary-dark: #006666;
+  --secondary-color: #CBD5E0;
+  --text-dark: #2D3748;
+  --text-light: #4A5568;
+  --background-light: #F7FAFC;
+  --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --card-radius: 12px;
+  --transition-ease: all 0.3s ease;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--background-light);
+  color: var(--text-dark);
+  line-height: 1.6;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 1.5rem;
+  color: var(--primary-color);
+  position: relative;
+}
+
+.loading-container::after {
+  content: "";
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(0, 128, 128, 0.2);
+  border-top-color: var(--primary-color);
+  border-radius: 50%;
+  position: absolute;
+  animation: loading 1s ease infinite;
+  margin-top: 80px;
+}
+
+@keyframes loading {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.profile-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.profile-title {
+  font-size: 2.5rem;
+  text-align: center;
+  color: var(--primary-color);
+  margin: 2rem 0;
+  position: relative;
+  font-weight: 600;
+}
+
+.profile-title::after {
+  content: "";
+  display: block;
+  width: 100px;
+  height: 3px;
+  background-color: var(--primary-color);
+  margin: 10px auto;
+  border-radius: 2px;
+}
+
+.profile-card {
+  background: linear-gradient(135deg, #ffffff, var(--secondary-color));
+  border-radius: var(--card-radius);
+  box-shadow: var(--card-shadow);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  transition: var(--transition-ease);
+  position: relative;
+  overflow: hidden;
+}
+
+.profile-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  background-color: var(--primary-color);
+}
+
+.profile-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.profile-info {
+  display: grid;
+  gap: 1.2rem;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(203, 213, 224, 0.5);
+}
+
+.info-label {
+  min-width: 100px;
+  font-size: 1.1rem;
+  color: var(--primary-color);
+  font-weight: 600;
+  margin: 0;
+}
+
+.info-value {
+  font-size: 1.1rem;
+  color: var(--text-dark);
+  font-weight: 500;
+  margin: 0;
+}
+
+.edit-button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.edit-button {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: var(--transition-ease);
+  box-shadow: 0 4px 6px rgba(0, 128, 128, 0.2);
+  cursor: pointer;
+}
+
+.edit-button:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 10px rgba(0, 128, 128, 0.3);
+}
+
+.edit-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 128, 128, 0.2);
+}
+
+.section-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--primary-color), transparent);
+  margin: 3rem 0;
+}
+
+.section-title {
+  font-size: 1.8rem;
+  text-align: center;
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.requests-card {
+  background: linear-gradient(135deg, #ffffff, var(--secondary-color));
+  border-radius: var(--card-radius);
+  box-shadow: var(--card-shadow);
+  padding: 2rem;
+  transition: var(--transition-ease);
+}
+
+.requests-list {
+  list-style: none;
+  display: grid;
+  gap: 1.5rem;
+}
+
+.request-item {
+  background-color: white;
+  padding: 1.2rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: var(--transition-ease);
+  border-left: 4px solid var(--primary-color);
+}
+
+.request-item:hover {
+  transform: translateX(5px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.request-item p {
+  margin: 0.5rem 0;
+}
+
+.field-label {
+  font-weight: 600;
+  color: var(--text-light);
+  margin-right: 0.5rem;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.status-pending {
+  background-color: #FEF3C7;
+  color: #92400E;
+}
+
+.status-approved {
+  background-color: #D1FAE5;
+  color: #065F46;
+}
+
+.status-rejected {
+  background-color: #FEE2E2;
+  color: #B91C1C;
+}
+
+.status-inprogress {
+  background-color: #DBEAFE;
+  color: #1E40AF;
+}
+
+.status-completed {
+  background-color: #C7D2FE;
+  color: #3730A3;
+}
+
+.no-requests {
+  text-align: center;
+  color: var(--text-light);
+  font-style: italic;
+  padding: 1.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .profile-container {
+    padding: 1rem;
+  }
+  
+  .profile-title {
+    font-size: 2rem;
+  }
+  
+  .info-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+  }
+  
+  .info-label {
+    min-width: auto;
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
+  }
+}
+
+/* Animation for Cards */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.profile-card, .requests-card {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.request-item:nth-child(odd) {
+  animation: fadeIn 0.5s ease-out calc(0.1s * var(--i, 1));
+}
+
+.request-item:nth-child(even) {
+  animation: fadeIn 0.5s ease-out calc(0.15s * var(--i, 1));
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-light);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-dark);
+}

@@ -1,12 +1,28 @@
-import mongoose from 'mongoose';
+/*import mongoose from "mongoose";
 
-const carSchema = new mongoose.Schema({
-  image: String,
-  name: String,
-  description: String,
-  quantity: Number
+// Define the schema for the Search collection
+const searchSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  company: { type: String, required: true },
+  launchYear: { type: Number, required: true },
+  price: { type: Number, required: true },
+  engineType: { type: String, required: true },
+  engineCapacity: { type: String, required: true },
+  bodyStyle: { type: String, required: true },
+  materialUsed: { type: String, required: true },
+  suspensionType: { type: String, required: true },
+  brakes: { type: String, required: true },
+  steeringType: { type: String, required: true },
+  fuelTankCapacity: { type: String, required: true },
+  batteryCapacity: { type: String, required: true },
+  parkingAssistance: { type: String, required: true },
+  image: { type: String, required: true } ,
+  quantity: { type: Number, required: true }
+  
 });
 
-const Car = mongoose.model('car', carSchema);
+// Create a model for the Search collection
+const Search = mongoose.model("search_cars", searchSchema);
 
-export default Car;
+export default Search;
+*/

@@ -119,18 +119,17 @@ const Buy = () => {
   }, []);
 
   // Fetch cars function
-  const fetchCars = () => {
+  const fetchCars = async () => {
     setIsLoading(true);
-    axios.get("http://localhost:4000/buy_cars")
-      .then(response => {
-        setCars(response.data);
-        setIsLoading(false);
-      })
-      .catch(error => {
-        console.error("Error fetching car data:", error);
-        setError("Failed to load cars. Please try again later.");
-        setIsLoading(false);
-      });
+    try {
+      const response = await axios.get("http://localhost:4000/buy_cars");
+      setCars(response.data);
+    } catch (error) {
+      console.error("Error fetching car data:", error);
+      setError("Failed to load cars. Please try again later.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   // Check authentication
@@ -155,39 +154,35 @@ const Buy = () => {
       navigate("/LoginForm");
       return;
     }
-
+  
     if (!car || !car._id) {
       console.error("Car is undefined or missing _id:", car);
       alert("Car details are missing. Please try again.");
       return;
     }
-
+  
     if (car.quantity <= 0) {
       alert("This car is out of stock.");
       return;
     }
-
+  
     axios.put(`http://localhost:4000/buy/${car._id}`, {}, {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
     })
     .then(response => {
-      console.log("Purchase Successful:", response.data);
-      
-      // Update state after purchase
-      setCars(prevCars => 
-        prevCars.map(c => 
-          c._id === car._id ? { ...c, quantity: c.quantity - 1 } : c
-        )
-      );
-      
-      navigate(`/Payment?id=${car._id}&name=${encodeURIComponent(car.name)}&price=${car.price}`);  
+      console.log("✅ Purchase Successful:", response.data);
+  
+  
+      navigate(`/Payment?id=${car._id}&name=${encodeURIComponent(car.name)}&price=${car.price}`);
       alert(response.data.message);
     })
     .catch(error => {
-      console.error("Purchase failed:", error.response?.data || error.message);
+      console.error("❌ Purchase failed:", error.response?.data || error.message);
       alert(error.response?.data?.error || "Error purchasing car");
     });
   };
+  
+  
 
   // Get car image function
   const getCarImage = (imageName) => {
@@ -205,13 +200,21 @@ const Buy = () => {
     }
   };
 
+  const LoadingMessage = React.memo(() => (
+    <Text textAlign="center" fontSize="xl" color="gray.500">Loading cars...</Text>
+  ));
+
+  const ErrorMessage = React.memo(({ error }) => (
+    <Text textAlign="center" fontSize="xl" color="red.500">{error}</Text>
+  ));
+
   return (
     <ChakraProvider>
       <div className="main-body" style={styles.mainBody}>
         <VStack spacing={6} align="stretch">
 
           {/* Buy Car Title */}
-          <Heading as="h2" size="3xl" color="teal" textAlign="center">
+          <Heading as="h2" size="3xl" colorScheme="teal" textAlign="center">
             Buy Car
           </Heading>
 
@@ -236,9 +239,9 @@ const Buy = () => {
 
           {/* Car Listing Grid */}
           {isLoading ? (
-            <Text textAlign="center" fontSize="xl" color="gray.500">Loading cars...</Text>
+            <LoadingMessage />
           ) : error ? (
-            <Text textAlign="center" fontSize="xl" color="red.500">{error}</Text>
+            <ErrorMessage error={error} />
           ) : (
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem' }}>
               {cars.length === 0 ? (

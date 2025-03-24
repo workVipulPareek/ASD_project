@@ -24,7 +24,7 @@ import AdminUser from './components/AdminUser';
 import UserProfile from './components/UserProfile';
 import EditUserProfile from './components/EditUserProfile';
 import Payment from  './components/Payment';
-import OrderSuccess from './components/OrderSucess';
+import OrderSuccess from './components/OrderSuccess';
 import SearchPage from './components/search';
 import OldBuy from './components/oldbuy';
 

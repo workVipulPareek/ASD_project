@@ -14,6 +14,7 @@ import authRoutes from "./Auth/AuthRoutes.js";
 import carRoutes from "./routes/cars.js";
 import paymentRoutes from "./routes/payment.js";
 import UserSell from './models/used_cars.js';
+import Purchase from "./models/Purchase.js";
 
 
 dotenv.config();
@@ -261,8 +262,8 @@ app.delete('/users/:email', async (req, res) => {
   }
 });
 
-// Get all sales data
-/*app.get('/sales', async (req, res) => {
+//Get all sales data
+app.get('/sales', async (req, res) => {
   try {
     const salesData = await SellData.find();
     res.status(200).json(salesData);
@@ -271,7 +272,6 @@ app.delete('/users/:email', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
-*/
 
 // Get all service data
 app.get('/services', async (req, res) => {
@@ -366,18 +366,23 @@ app.post('/add_car', async (req, res) => {
   
   app.put('/buy/:id', async (req, res) => {
     try {
+      console.log("Received Buy Request for ID:", req.params.id); // ✅ Debugging log
+  
       const car = await Search.findById(req.params.id);
+      if (!car) return res.status(404).json({ error: "Car not found" });
+  
       if (car.quantity > 0) {
-        car.quantity -= 1;
         await car.save();
-        res.json({ message: 'Purchase successful' });
+        return res.json({ message: 'Purchase successful' });
       } else {
-        res.status(400).json({ message: 'Out of stock' });
+        return res.status(400).json({ error: 'Out of stock' });
       }
     } catch (err) {
-      res.status(500).send(err);
+      console.error("Error processing buy:", err);
+      res.status(500).json({ error: 'Server error' });
     }
   });
+  
 
 // Delete service request endpoint
 app.delete('/services/:id', async (req, res) => {
@@ -471,6 +476,81 @@ app.get("/search", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+app.post('/payments/process', AuthContext, async (req, res) => {
+  try {
+    const { carId, carName, price, paymentMethod } = req.body;
+    const email = req.user.email;
+
+    const newPurchase = new Purchase({
+      userEmail: email,
+      carId,
+      carName,  // ✅ Ensure carName is saved
+      price,
+      paymentMethod,
+      transactionId: crypto.randomUUID()  // ✅ Add transaction ID
+    });
+
+    await newPurchase.save();
+    res.status(200).json({ message: "Payment successful", transactionId: newPurchase.transactionId });
+  } catch (error) {
+    console.error("Error processing payment:", error);
+    res.status(500).json({ error: "Payment failed" });
+  }
+});
+
+
+// ✅ Fetch User's Service Requests
+app.get('/userServiceRequests', async (req, res) => {
+  try {
+    const email = req.query.email;
+    if (!email) {
+      return res.status(400).json({ error: "Email is required" });
+    }
+    const requests = await ServiceData.find({ email });
+    res.json(requests);
+  } catch (error) {
+    console.error("Error fetching user service requests:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// ✅ Fetch User's Resell Requests
+app.get('/userSellRequests', async (req, res) => {
+  try {
+    const email = req.query.email;
+    if (!email) {
+      return res.status(400).json({ error: "Email is required" });
+    }
+    const resellRequests = await SellData.find({ email });
+    res.json(resellRequests);
+  } catch (error) {
+    console.error("Error fetching user resell requests:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.get('/userPurchases', AuthContext, async (req, res) => {
+  try {
+    const email = req.query.email;
+    if (!email) return res.status(400).json({ error: "Email is required" });
+
+    const purchases = await Purchase.find({ userEmail: email });
+
+    if (!purchases || purchases.length === 0) {
+      return res.status(404).json({ message: "No purchases found" });
+    }
+
+    res.json(purchases);
+  } catch (error) {
+    console.error("Error fetching purchase history:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+
+
+
 
 // ✅ Start Server - JUST ONCE AT THE END OF THE FILE
 app.listen(port, () => {

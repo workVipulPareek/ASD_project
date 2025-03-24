@@ -7,6 +7,7 @@ const UserProfile = () => {
     const [user, setUser] = useState(null);
     const [userRequests, setUserRequests] = useState([]);
     const [userResellData, setUserResellData] = useState([]);
+    const [userPurchases, setUserPurchases] = useState([]);
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -18,10 +19,10 @@ const UserProfile = () => {
                 });
                 setUser(response.data);
 
-                // ✅ Extract email and use it to fetch requests
                 if (response.data.email) {
                     fetchUserRequests(response.data.email);
                     fetchResellRequests(response.data.email);
+                    fetchPurchaseHistory(response.data.email);
                 }
             } catch (error) {
                 console.error('Error fetching user profile:', error);
@@ -30,25 +31,43 @@ const UserProfile = () => {
 
         const fetchUserRequests = async (email) => {
             try {
-                const request = await axios.get(`http://localhost:4000/userServiceRequests?email=${email}`, {
+                const response = await axios.get(`http://localhost:4000/userServiceRequests?email=${email}`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
-                setUserRequests(request.data);
+                setUserRequests(response.data);
             } catch (error) {
-                console.error('Error fetching user requests:', error);
+                console.error('Error fetching service requests:', error);
             }
         };
 
         const fetchResellRequests = async (email) => {
             try {
-                const request = await axios.get(`http://localhost:4000/userSellRequests?email=${email}`, {
+                const response = await axios.get(`http://localhost:4000/userSellRequests?email=${email}`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
-                setUserResellData(request.data);
+                setUserResellData(response.data);
             } catch (error) {
-                console.error('Error fetching user Resell requests:', error);
+                console.error('Error fetching resell requests:', error);
             }
         };
+
+        const fetchPurchaseHistory = async (email) => {
+            try {
+                const response = await axios.get(`http://localhost:4000/userPurchases?email=${email}`, {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+        
+                if (response.data.length === 0) {
+                    setUserPurchases([]);
+                    return;
+                }
+        
+                setUserPurchases(response.data);
+            } catch (error) {
+                console.error("Error fetching purchase history:", error);
+            }
+        };
+        
 
         if (token) {
             fetchUserProfile();
@@ -91,15 +110,16 @@ const UserProfile = () => {
             
             <div className="section-divider"></div>
             
+            {/* Service Requests Section */}
             <div className="requests-section">
-                <h2 className="section-title">Know the status of your Service Request</h2>
+                <h2 className="section-title">Service Request Status</h2>
                 <div className="requests-card">
                     <ul className="requests-list">
                         {userRequests.length > 0 ? (
                             userRequests.map((request) => (
                                 <li key={request._id} className="request-item">
-                                    <p><span className="field-label">Name:</span> {request.name}</p>
-                                    <p><span className="field-label">Service:</span> {request.serviceType}</p>
+                                    <p><span className="field-label">Vehicle:</span> {request.vehicleModel} ({request.vehicleCompany})</p>
+                                    <p><span className="field-label">Service Type:</span> {request.serviceType}</p>
                                     <p><span className="field-label">Status:</span> <span className={`status-badge status-${request.status.toLowerCase()}`}>{request.status}</span></p>
                                 </li>
                             ))
@@ -109,23 +129,45 @@ const UserProfile = () => {
                     </ul>
                 </div>
             </div>
-            
+
             <div className="section-divider"></div>
             
+            {/* Resell Requests Section */}
             <div className="requests-section">
-                <h2 className="section-title">Know the status of your Resell Request</h2>
+                <h2 className="section-title">Resell Request Status</h2>
                 <div className="requests-card">
                     <ul className="requests-list">
                         {userResellData.length > 0 ? (
                             userResellData.map((request) => (
                                 <li key={request._id} className="request-item">
-                                    <p><span className="field-label">Name:</span> {request.name}</p>
-                                    <p><span className="field-label">Service:</span> {request.serviceType}</p>
+                                    <p><span className="field-label">Vehicle:</span> {request.vehicleModel} ({request.vehicleCompany})</p>
                                     <p><span className="field-label">Status:</span> <span className={`status-badge status-${request.status.toLowerCase()}`}>{request.status}</span></p>
                                 </li>
                             ))
                         ) : (
                             <li className="no-requests">No resell requests found</li>
+                        )}
+                    </ul>
+                </div>
+            </div>
+
+            <div className="section-divider"></div>
+
+            {/* Purchase History Section */}
+            <div className="requests-section">
+                <h2 className="section-title">Purchase History</h2>
+                <div className="requests-card">
+                    <ul className="requests-list">
+                        {userPurchases.length > 0 ? (
+                            userPurchases.map((purchase) => (
+                                <li key={purchase._id} className="request-item">
+                                    {/* <p><span className="field-label">Vehicle:</span> {purchase.vehicleModel} ({purchase.vehicleCompany})</p> */}
+                                    <p><span className="field-label">Price:</span> ${purchase.price}</p>
+                                    <p><span className="field-label">Transaction ID:</span> {purchase.transactionId}</p>
+                                </li>
+                            ))
+                        ) : (
+                            <li className="no-requests">No purchases found</li>
                         )}
                     </ul>
                 </div>

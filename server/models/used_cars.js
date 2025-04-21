@@ -10,7 +10,7 @@ const userSellSchema = new mongoose.Schema({
   vehicleCompany: { type: String, required: true },
   status: { type: String, required: true },
   description: { type: String, required: true },
-  image_url: { type: String, default: "" , required: false },  // ✅ Ensure image_url is included
+  image_url: { type: String , required: false },  // ✅ Ensure image_url is included
 });
 
 // Create model

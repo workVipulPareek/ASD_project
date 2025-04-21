@@ -148,7 +148,7 @@ app.post('/sales', async (req, res) => {
   try {
     console.log("Received Data:", req.body);  // Debugging step
 
-    const { name, email, phone, vehicleNumber, vehicleModel, vehicleCompany, description, status } = req.body;
+    const { name, email, phone, vehicleNumber, vehicleModel, vehicleCompany, description, status, image_url } = req.body;
 
     const sellData = new SellData({
       name,
@@ -159,6 +159,7 @@ app.post('/sales', async (req, res) => {
       vehicleCompany,
       status,
       description,
+      image_url ,
     });
 
     const savedData = await sellData.save();

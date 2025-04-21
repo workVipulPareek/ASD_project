@@ -266,7 +266,7 @@ const BuyPage = () => {
             >
               <div style={styles.imageContainer}>
                 <img
-                  src={car.imageUrl}
+                  src={car.image_url}
                   alt={car.name}
                   style={{
                     ...styles.cardImage,

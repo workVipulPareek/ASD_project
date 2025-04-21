@@ -261,7 +261,7 @@ const Buy = () => {
                   >
                     <div style={{ position: 'relative', overflow: 'hidden' }}>
                       <img
-                        src={getCarImage(car.image)}
+                        src={car.image}
                         alt={car.name}
                         style={styles.cardImage}
                       />

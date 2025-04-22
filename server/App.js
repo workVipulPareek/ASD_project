@@ -23,9 +23,8 @@ const app = express();
 const port = process.env.PORT || 4000;
 const SECRET_KEY = process.env.SECRET_KEY || 'secretkey';
 
-// ✅ Middleware
 app.use(cors({
-  origin: "http://localhost:3000", // Adjust as per frontend
+  origin: "http://localhost:3000", 
   methods: "GET,POST,PUT,DELETE",
   allowedHeaders: "Content-Type,Authorization",
   credentials: true
@@ -33,24 +32,20 @@ app.use(cors({
 app.use(express.json());
 
 
-// ✅ Log Incoming Requests (Debugging)
 app.use((req, res, next) => {
-  console.log(`📩 Request received: ${req.method} ${req.url}`);
+  console.log(` Request received: ${req.method} ${req.url}`);
   next();
 });
 
-// ✅ Register Routes
 app.use("/api/auth", authRoutes);
 app.use("/cars", carRoutes);
 app.use("/payments", paymentRoutes);
 
-// ✅ MongoDB Connection
 // Remove deprecated options
 mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/vijay')
-  .then(() => console.log('✅ MongoDB connected'))
-  .catch(err => console.error('❌ MongoDB connection error:', err));
+  .then(() => console.log(' MongoDB connected'))
+  .catch(err => console.error(' MongoDB connection error:', err));
 
-// ✅ User Registration
 app.post('/Register', async (req, res) => {
   const { name, email, password, phone, address } = req.body;
 
@@ -66,12 +61,11 @@ app.post('/Register', async (req, res) => {
 
     res.status(201).json({ user: newUser, token, message: 'User registered successfully' });
   } catch (err) {
-    console.error('❌ Registration error:', err);
+    console.error(' Registration error:', err);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
 
-// ✅ User Login
 app.post('/UserLogin', async (req, res) => {
   const { email, password } = req.body;
 
@@ -89,7 +83,7 @@ app.post('/UserLogin', async (req, res) => {
     const token = jwt.sign({ email: existingUser.email, id: existingUser._id }, SECRET_KEY);
     res.status(200).json({ user: existingUser, token, message: 'User login successful' });
   } catch (err) {
-    console.error('❌ Login error:', err);
+    console.error(' Login error:', err);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
@@ -288,7 +282,7 @@ app.get('/services', async (req, res) => {
 // Get all users (only emails for now)
 app.get('/users', async (req, res) => {
   try {
-    const users = await User.find({}, 'email');
+    const users = await User.find({}, 'email name phone address'); // Include the fields you want
     res.status(200).json(users);
   } catch (err) {
     console.error('Error fetching users:', err);
@@ -327,7 +321,7 @@ app.get('/users', async (req, res) => {
     }
 });
 
-// ✅ Update car details
+//  Update car details
 app.put('/update_car/:id', async (req, res) => {
     const { id } = req.params;
     const updatedData = req.body;
@@ -341,7 +335,7 @@ app.put('/update_car/:id', async (req, res) => {
     }
 });
 
-// ✅ Add a new car
+//  Add a new car
 app.post('/add_car', async (req, res) => {
     try {
         const newCar = new Search(req.body);
@@ -367,7 +361,7 @@ app.post('/add_car', async (req, res) => {
   
   app.put('/buy/:id', async (req, res) => {
     try {
-      console.log("Received Buy Request for ID:", req.params.id); // ✅ Debugging log
+      console.log("Received Buy Request for ID:", req.params.id); //  Debugging log
   
       const car = await Search.findById(req.params.id);
       if (!car) return res.status(404).json({ error: "Car not found" });
@@ -404,7 +398,6 @@ app.delete('/services/:id', async (req, res) => {
   }
 });
 
-// ✅ Fetch User Profile (Only for Logged-in Users)
 app.get('/userProfile', AuthContext, async (req, res) => {
   try {
     const user = await User.findOne({ email: req.user.email });
@@ -414,12 +407,11 @@ app.get('/userProfile', AuthContext, async (req, res) => {
 
     res.json(user);
   } catch (error) {
-    console.error('❌ Error fetching user profile:', error);
+    console.error(' Error fetching user profile:', error);
     res.status(500).json({ message: 'Server error' });
   }
 });
 
-// ✅ Edit User Profile (Only for Logged-in Users)
 app.post('/EditUserProfile', AuthContext, async (req, res) => {
   try {
     const { name, phone, address } = req.body;
@@ -437,12 +429,11 @@ app.post('/EditUserProfile', AuthContext, async (req, res) => {
 
     res.json(updatedUser);
   } catch (error) {
-    console.error('❌ Error updating user profile:', error);
+    console.error(' Error updating user profile:', error);
     res.status(500).json({ message: 'Server error' });
   }
 });
 
-// ✅ Search endpoint
 app.get("/search", async (req, res) => {
   try {
     const { 
@@ -486,10 +477,10 @@ app.post('/payments/process', AuthContext, async (req, res) => {
     const newPurchase = new Purchase({
       userEmail: email,
       carId,
-      carName,  // ✅ Ensure carName is saved
+      carName,  //  Ensure carName is saved
       price,
       paymentMethod,
-      transactionId: crypto.randomUUID()  // ✅ Add transaction ID
+      transactionId: crypto.randomUUID()  //  Add transaction ID
     });
 
     await newPurchase.save();
@@ -501,7 +492,7 @@ app.post('/payments/process', AuthContext, async (req, res) => {
 });
 
 
-// ✅ Fetch User's Service Requests
+//  Fetch User's Service Requests
 app.get('/userServiceRequests', async (req, res) => {
   try {
     const email = req.query.email;
@@ -516,7 +507,7 @@ app.get('/userServiceRequests', async (req, res) => {
   }
 });
 
-// ✅ Fetch User's Resell Requests
+//  Fetch User's Resell Requests
 app.get('/userSellRequests', async (req, res) => {
   try {
     const email = req.query.email;
@@ -550,12 +541,8 @@ app.get('/userPurchases', AuthContext, async (req, res) => {
 });
 
 
-
-
-
-// ✅ Start Server - JUST ONCE AT THE END OF THE FILE
 app.listen(port, () => {
-  console.log(`🚀 Server running on port ${port}`);
+  console.log(`Server running on port ${port}`);
 });
 
 app.put('/updateSaleStatus/:id', async (req, res) => {
@@ -608,7 +595,6 @@ app.get('/sales', async (req, res) => {
 });
 
 
-// ✅ Update sale status
 app.post('/usedcarsell', async (req, res) => {
   try {
       const newSale = new UserSell(req.body);
@@ -670,7 +656,6 @@ app.put("/buy_old/:id", async (req, res) => {
 });
 
 
-// Check authentication (Mock API)
 app.get("/api/auth/check-auth", (req, res) => {
   const token = req.headers.authorization?.split(" ")[1];
   if (token === "valid_token") {
@@ -681,8 +666,3 @@ app.get("/api/auth/check-auth", (req, res) => {
 });
 
 
-
-// ✅ Get user profile
-
-
-// ✅ Get user's service requests

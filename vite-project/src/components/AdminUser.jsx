@@ -27,6 +27,10 @@ function UserInfo() {
         .get("http://localhost:4000/users")
         .then((response) => {
           if (Array.isArray(response.data)) {
+            // Log the first user to see its structure
+            if (response.data.length > 0) {
+              console.log("Sample user data:", response.data[0]);
+            }
             setUsers(response.data);
           } else {
             console.error("Fetched data is not an array:", response.data);
@@ -86,19 +90,22 @@ function UserInfo() {
           </Heading>
           <List spacing={5}>
             {users.map((user) => (
-              <ListItem key={user._id}>
+              <ListItem key={user._id || user.email}>
                 <Box p={4} boxShadow="lg" borderRadius="md" bg="white">
                   <Flex justifyContent="space-between" alignItems="center">
                     <Box>
                       <Text fontSize="lg">
-                        <strong>Name:</strong> {user.name}
+                        <strong>Name:</strong> {user.name || "N/A"}
                       </Text>
                       <Text fontSize="lg">
                         <strong>Email:</strong> {user.email}
                       </Text>
-                      <Text fontSize="lg">
-                        <strong>Role:</strong> {user.role}
-                      </Text>
+                      {/* Display username if available */}
+                      {user.username && (
+                        <Text fontSize="lg">
+                          <strong>Username:</strong> {user.username}
+                        </Text>
+                      )}
                     </Box>
                     <Button
                       colorScheme="red"
